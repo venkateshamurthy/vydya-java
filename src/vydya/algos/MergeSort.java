@@ -22,8 +22,8 @@ public class MergeSort {
                 + "\nDuration: " + (endTime - startTime) + " ns");
     }
 
-    int[] a;
-    int[] temp;
+    final int[] a;
+    final int[] temp;
 
     MergeSort(int [] array) {
         this.a = array;
@@ -41,7 +41,7 @@ public class MergeSort {
     }
 
     private void merge(final int start, final int mid, final int end) {
-        int tLen = mid + 1 - start;
+        int tLen = mid - start + 1;
         int i = mid + 1, j = 0, k = start;
 
         //Copy the array[start] to array[mid] to the temp array

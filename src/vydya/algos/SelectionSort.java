@@ -8,10 +8,7 @@ public class SelectionSort {
     static Random rand = new Random(10L);
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter the size of the array: ");
-        int[] array = new int[scanner.nextInt()];
-        scanner.close();
+        int[] array = new int[rand.nextInt(10, 20)];
         for (int i = 0; i < array.length; i++) {
             array[i] = rand.nextInt(10, 10000);
         }

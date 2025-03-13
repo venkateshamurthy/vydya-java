@@ -1,33 +1,29 @@
 package vydya.algos;
 
-import java.util.Arrays;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.Stream;
 
 public class QuickSort {
     static Random rand = new Random(10L);
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter the size of the array: ");
-        int[] array = new int[scanner.nextInt()];
-        scanner.close();
+        int[] array = new int[rand.nextInt(10, 20)];
         for (int i = 0; i < array.length; i++) {
             array[i] = rand.nextInt(10, 10000);
         }
 
-        QuickSort quickSort = new QuickSort();
+        QuickSort quickSort = new QuickSort(array);
 
         System.out.println("The input array is: "+ Arrays.toString(array));
         long startTime = System.nanoTime();
-        quickSort.quickSort(array, 0, array.length - 1);
+        quickSort.quickSort(0, array.length - 1);
         long endTime = System.nanoTime();
         System.out.println("Quick Sorted array: " + Arrays.toString(array)
-        + "\nDuration: " + (endTime - startTime) + " ns");
+                + "\nDuration: " + (endTime - startTime) + " ns");
 
     }
 
-    int[] a;
+    final int[] a;
     public QuickSort(int [] array) {
         this.a = array;
     }
@@ -46,7 +42,7 @@ public class QuickSort {
         // 5      1       8    3    9    4    2    7    6
         //       small-->                            <--large
         int small = start + 1, large = end;
-        while (small <= large) {
+        while (small <= large ) {
             if      (a[small] <  a[start]) small++;
             else if (a[large] >= a[start]) large--;
             else swap(a, small++, large--);
@@ -60,5 +56,4 @@ public class QuickSort {
         a[i] = a[j];
         a[j] = temp;
     }
-
 }
