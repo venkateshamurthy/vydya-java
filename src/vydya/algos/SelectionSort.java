@@ -9,7 +9,7 @@ import java.util.Random;
 
 /**
  *
- * @author venkatm
+ * @author vydya
  */
 public class SelectionSort {
     static final  Random rand = new Random(10L);
