@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.Random;
 /**
  *
- * @author venkatm
+ * @author vydya
  */
 public class MergeSort {
     static final  Random rand = new Random(10L);
