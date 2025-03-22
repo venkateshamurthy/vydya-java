@@ -1,37 +1,47 @@
 package vydya.algos;
 
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
+
 //search in array
 public class LinearSearch {
-    private static final Random RANDOM = new Random(10L);
-    //<--[0,1,2,3,4,5,6,7,8,9]-->
-    //   [10,15,17,
-    // for (int i=0; i < n; i++) if(a[i]==target) return i;
-    // return -1;
-    //Recursive search needs k as the starting index
-    public int search(int[] a, final int k, final int key) {
-        if (k < 0 || k > a.length - 1) return -1;
-        if (a[k] == key) return k;
-        return search(a, k - 1, key);
+    private static final Random rand = new Random(10L);
+    private final int[] data;
+
+    public LinearSearch(int[] data) {
+        this.data = data;
     }
-
+    
+    public int search(final int target) {
+        int result = search(data.length - 1, target);
+        System.out.format("Target number %d is " +
+                (result == -1 ? "absent": "present at index:%d\n"),
+                target, result);
+        return result;
+    }
+    
+    //Recursive search needs k as the starting index
+    private int search(final int k, final int key) {
+        if (k < 0 || k > data.length - 1) return -1;
+        if (data[k] == key) return k;
+        return search(k - 1, key);
+    }
+    
+    
+    // Generate: 880, 493, 190, 446, 956, 497, 788, 481, 614, 623, 399, 691, 808
+    static int[] createRandomArray() {
+        int[] input = new int[rand.nextInt(10, 20)];
+        for (int i = 0; i < input.length; i++) input[i] = rand.nextInt(100, 1000);
+        System.out.println("Random array Input:" + Arrays.toString(input));
+        return input;
+    }
+    
     public static void main(String[] args) {
-        LinearSearch linearSearch = new LinearSearch();
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Enter the number of elements:");
-        int[] data = new int[scanner.nextInt()];
-
-        for (int i = 0; i < data.length; i++) data[i] = RANDOM.nextInt(10,50);
-        System.out.println("Enter the Input:");
-
-        System.out.print("Enter the target number:");
-        int target = scanner.nextInt();
-        scanner.close();
-
-        int result = linearSearch.search(data, data.length - 1, target);
-        System.out.print("Target number " + target + " is " +
-                (result == -1 ? "absent": "present at index:"+result));
+        System.out.println("\nRunning Linear Search on an integer array");
+        LinearSearch searcher = new LinearSearch(createRandomArray());
+        
+        searcher.search(788);  //present
+        searcher.search(-100); //absent
     }
 }

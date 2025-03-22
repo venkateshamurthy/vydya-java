@@ -11,12 +11,16 @@ package vydya.algos;
 public class Algos {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        System.out.println("Running some algorithm problems..");
         final String[] EMPTY=new String[0];
         
         SelectionSort.main(EMPTY);
         MergeSort.main(EMPTY);
         QuickSort.main(EMPTY);
+        LinearSearch.main(EMPTY);
         BinarySearch.main(EMPTY);
+        MinMax.main(EMPTY);
+        Fibonacci.main(EMPTY);
+        NCR.main(EMPTY);
     }
 }
