@@ -21,6 +21,12 @@ public class MergeSort {
         temp = new int[(1 + input.length) / 2];
     }
     
+    
+    int[] sort() {
+        sort(0, data.length - 1);
+        return data;
+    }
+    
     /**
      * The recursive Sort method which first breaks the array into 2 halves
      * Next both the halves are sorted. After which the merging of 2 halves 
@@ -82,20 +88,18 @@ public class MergeSort {
     
     public static void main(String[] args) {
         System.out.println("\nRuning Merge Sort...");
-        int[] input = createRandomArray();
-        MergeSort sorter = new MergeSort(input);
-        sorter.sort(0, input.length - 1);
-        System.out.println("Sorted Output :"+Arrays.toString(input));
+        int[] result = new MergeSort(createRandomArray()).sort();
+        System.out.format("Sorted Output :%s\n", Arrays.toString(result));
     }
     
     static int[] createRandomArray() {
         int[] input = new int[rand.nextInt(10, 20)];
         for (int i = 0; i < input.length; i++) input[i] = rand.nextInt(100, 1000);
-        System.out.println("Unsorted Input:" + Arrays.toString(input));
+        System.out.format("Unsorted Input:%s\n" , Arrays.toString(input));
         return input;
     }
     
-     void swap(int a, int b) {
+    void swap(int a, int b) {
         int temp = data[a];
         data[a] = data[b];
         data[b] = temp;

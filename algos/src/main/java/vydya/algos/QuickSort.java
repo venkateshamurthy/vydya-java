@@ -21,6 +21,11 @@ public class QuickSort {
         data = input;
     }
     
+    int[] sort() {
+        sort(0, data.length - 1);
+        return data;
+    }
+    
     /**
      * Recursive sort method
      * @param start
@@ -62,16 +67,14 @@ public class QuickSort {
     
     public static void main(String[] args) {
         System.out.println("\nRuning Quick Sort...");
-        int[] input = createRandomArray();
-        QuickSort sorter = new QuickSort(input);
-        sorter.sort(0, input.length - 1);
-        System.out.println("Sorted Output :"+Arrays.toString(input));
+        int[] result = new QuickSort(createRandomArray()).sort();
+        System.out.format("Sorted Output :%s\n", Arrays.toString(result));
     }
     
     static int[] createRandomArray() {
         int[] input = new int[rand.nextInt(10, 20)];
         for (int i = 0; i < input.length; i++) input[i] = rand.nextInt(100, 1000);
-        System.out.println("Unsorted Input:" + Arrays.toString(input));
+        System.out.format("Unsorted Input:%s\n" , Arrays.toString(input));
         return input;
     }
     
