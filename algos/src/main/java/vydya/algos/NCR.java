@@ -18,10 +18,10 @@ public class NCR {
 
     public static void main(String[] args) {
         System.out.println("\nRunning NCR..");
-        int n = rand.nextInt(10,20); 
-        int r = rand.nextInt(5, 10);
+        int n = rand.nextInt(8, 12); 
+        int r = rand.nextInt(2, 7);
         
         NCR ncr = new NCR();
-        System.out.println("Result:"+ncr.ncr(n, r));
+        System.out.format("n=%d, r=%d ncr=%d\n", n, r, ncr.ncr(n, r));
     }
 }
