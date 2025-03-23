@@ -6,6 +6,7 @@ package vydya.algos;
 
 import java.util.Arrays;
 import java.util.Random;
+import java.util.Scanner;
 
 /**
  *
@@ -16,7 +17,7 @@ public class QuickSort {
     
     private final int[] data;
     
-    //Constructor
+    //Constructor is needed to populate the final field data
     public QuickSort(int[] input) {
         data = input;
     }
@@ -43,7 +44,7 @@ public class QuickSort {
      * Partition method to initially go with a start pivot but however with 
      * partitioning done with a near and far pointer approach we get the partition
      * @param pivot the initial pivot (always to be at start index)
-     * @param end
+     * @param end the  last index of the array
      * @return the partition index 
      */
     public int partition (final int pivot, final int end) {
@@ -66,13 +67,27 @@ public class QuickSort {
     
     
     public static void main(String[] args) {
-        System.out.println("\nRuning Quick Sort...");
-        int[] result = new QuickSort(createRandomArray()).sort();
+        System.out.println("\nRuning Quick Sort..."+Arrays.toString(args));
+        int[] input;
+        if(Arrays.stream(args).anyMatch("auto"::contains))
+            input = createRandomArray(rand.nextInt(10, 20));
+        else
+            input = createRandomArray();
+        int[] result = new QuickSort(input).sort();
         System.out.format("Sorted Output :%s\n", Arrays.toString(result));
     }
     
     static int[] createRandomArray() {
-        int[] input = new int[rand.nextInt(10, 20)];
+        int size=10;
+        Scanner scanner = new Scanner(System.in);
+            System.out.print("Enter the size of Integer array:"); 
+            size = scanner.nextInt();
+        
+        return createRandomArray(size);
+    }
+    
+    static int[] createRandomArray(int size) {
+        int[] input = new int[size];
         for (int i = 0; i < input.length; i++) input[i] = rand.nextInt(100, 1000);
         System.out.format("Unsorted Input:%s\n" , Arrays.toString(input));
         return input;

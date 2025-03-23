@@ -2,6 +2,7 @@ package vydya.algos;
 
 import java.util.Arrays;
 import java.util.Random;
+import java.util.Scanner;
 
 public class BinarySearch {
     static Random rand = new Random(10);
@@ -31,19 +32,33 @@ public class BinarySearch {
         }
         return  -1;
     }
-    
+     
     static int[] createRandomArray() {
-        int[] input = new int[rand.nextInt(10, 20)];
+        int size=10;
+        Scanner scanner = new Scanner(System.in);
+            System.out.print("Enter the size of Integer array:"); 
+            size = scanner.nextInt();
+        
+        return createRandomArray(size);
+    }
+    
+    static int[] createRandomArray(int size) {
+        int[] input = new int[size];
         for (int i = 0; i < input.length; i++) input[i] = rand.nextInt(100, 1000);
         System.out.println("Random Array Input:" + Arrays.toString(input));
         return input;
     }
     
     public static void main(String[] args) {
-        System.out.println("\n\nRunning Binary Search on sorted array...");
-        int[] result = new MergeSort(createRandomArray()).sort();
-        System.out.println("Sorted array  :"+Arrays.toString(result));
+        System.out.println("\n\nRunning Binary Search after sorting..."+Arrays.toString(args));
         
+        int[] input;
+        if(Arrays.stream(args).anyMatch("auto"::contains))
+            input = createRandomArray(rand.nextInt(10, 20));
+        else
+            input = createRandomArray();
+        
+        int [] result = new MergeSort(input).sort();
         BinarySearch searcher = new BinarySearch(result);
         
         searcher.search(788);  //present

@@ -5,6 +5,7 @@
 package vydya.algos;
 import java.util.Arrays;
 import java.util.Random;
+import java.util.Scanner;
 /**
  *
  * @author vydya
@@ -87,13 +88,27 @@ public class MergeSort {
     }
     
     public static void main(String[] args) {
-        System.out.println("\nRuning Merge Sort...");
-        int[] result = new MergeSort(createRandomArray()).sort();
+        System.out.println("\nRuning Merge Sort..."+Arrays.toString(args));
+        int[] input;
+        if(Arrays.stream(args).anyMatch("auto"::contains))
+            input = createRandomArray(rand.nextInt(10, 20));
+        else
+            input = createRandomArray();
+        int[] result = new MergeSort(input).sort();
         System.out.format("Sorted Output :%s\n", Arrays.toString(result));
     }
+     
+     static int[] createRandomArray() {
+        int size=10;
+        Scanner scanner = new Scanner(System.in);
+            System.out.print("Enter the size of Integer array:"); 
+            size = scanner.nextInt();
+        
+        return createRandomArray(size);
+    }
     
-    static int[] createRandomArray() {
-        int[] input = new int[rand.nextInt(10, 20)];
+    static int[] createRandomArray(int size) {
+        int[] input = new int[size];
         for (int i = 0; i < input.length; i++) input[i] = rand.nextInt(100, 1000);
         System.out.format("Unsorted Input:%s\n" , Arrays.toString(input));
         return input;

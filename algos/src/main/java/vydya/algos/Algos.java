@@ -4,6 +4,8 @@
 
 package vydya.algos;
 
+import java.util.Arrays;
+
 /**
  *
  * @author venkatm
@@ -11,8 +13,10 @@ package vydya.algos;
 public class Algos {
 
     public static void main(String[] args) {
-        System.out.println("Running some algorithm problems..");
-        final String[] EMPTY=new String[0];
+        final String[] EMPTY=args;//new String[]{"auto"};
+        System.out.println("Running some algorithm problems.."
+                +Arrays.toString(EMPTY));
+        
         
         SelectionSort.main(EMPTY);
         MergeSort.main(EMPTY);

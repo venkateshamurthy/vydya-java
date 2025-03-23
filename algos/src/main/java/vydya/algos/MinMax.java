@@ -31,17 +31,31 @@ public class MinMax {
     private int maximum(int a, int b){return a > b ? a : b;}
 
     public static void main(String[] args) {
-        System.out.println("\n\nRunning Min Max on an integer array");
-        MinMax minMax = new MinMax(createRandomArray());
+        System.out.println("\n\nRunning Min Max on an integer array.."+Arrays.toString(args));
+        int[] input;
+        if(Arrays.stream(args).anyMatch("auto"::contains))
+            input = createRandomArray(rand.nextInt(10, 20));
+        else
+            input = createRandomArray();
+        MinMax minMax = new MinMax(input);
         long startTime = System.nanoTime();
         int[] result = minMax.findMinMax();
         long endTime = System.nanoTime();
         System.out.println("Min:"+result[0]+"  Max:"+result[1] + " duration:" + (endTime - startTime));
 
     }
-    
+     
     static int[] createRandomArray() {
-        int[] input = new int[rand.nextInt(10, 20)];
+        int size=10;
+        Scanner scanner = new Scanner(System.in);
+            System.out.print("Enter the size of Integer array:"); 
+            size = scanner.nextInt();
+        
+        return createRandomArray(size);
+    }
+    
+    static int[] createRandomArray(int size) {
+        int[] input = new int[size];
         for (int i = 0; i < input.length; i++) input[i] = rand.nextInt(100, 1000);
         System.out.format("Unsorted Input:%s\n" , Arrays.toString(input));
         return input;
