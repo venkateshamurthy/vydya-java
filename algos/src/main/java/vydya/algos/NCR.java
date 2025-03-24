@@ -10,7 +10,9 @@ import java.util.Scanner;
  * <p>
  * <b>Note:</b>However due to large values getting computed while computing 
  * factorial we need to use {@link java.math.BigInteger} that can hold 
- * very large integer values.Hence note that the  methods here do use BigInteger.
+ * very large integer values.Hence note that the  methods here do use BigInteger
+ * <p>
+ * Reference: https://www.calculatorsoup.com/calculators/discretemathematics/combinations.php.
  * 
  * @author vydya
  */
