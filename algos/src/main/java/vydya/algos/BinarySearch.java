@@ -36,9 +36,8 @@ public class BinarySearch {
     static int[] createRandomArray() {
         int size=10;
         Scanner scanner = new Scanner(System.in);
-            System.out.print("Enter the size of Integer array:"); 
-            size = scanner.nextInt();
-        
+        System.out.print("Enter the size of Integer array:"); 
+        size = scanner.nextInt();
         return createRandomArray(size);
     }
     
@@ -50,15 +49,18 @@ public class BinarySearch {
     }
     
     public static void main(String[] args) {
-        System.out.println("\n\nRunning Binary Search after sorting..."+Arrays.toString(args));
+        System.out.println("\n\nRunning Binary Search after sorting...");
         
         int[] input;
-        if(Arrays.stream(args).anyMatch("auto"::contains))
+        
+        if (args.length > 0 && args[0].toLowerCase().startsWith("auto"))
             input = createRandomArray(rand.nextInt(10, 20));
         else
             input = createRandomArray();
         
         int [] result = new MergeSort(input).sort();
+        System.out.format("Sorted Output for Binary Search :%s\n",
+                Arrays.toString(result));
         BinarySearch searcher = new BinarySearch(result);
         
         searcher.search(788);  //present

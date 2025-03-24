@@ -31,9 +31,9 @@ public class MinMax {
     private int maximum(int a, int b){return a > b ? a : b;}
 
     public static void main(String[] args) {
-        System.out.println("\n\nRunning Min Max on an integer array.."+Arrays.toString(args));
+        System.out.println("\n\nRunning Min Max on an integer array..");
         int[] input;
-        if(Arrays.stream(args).anyMatch("auto"::contains))
+        if (args.length > 0 && args[0].toLowerCase().startsWith("auto"))
             input = createRandomArray(rand.nextInt(10, 20));
         else
             input = createRandomArray();

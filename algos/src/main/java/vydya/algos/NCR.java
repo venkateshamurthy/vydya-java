@@ -26,14 +26,14 @@ public class NCR {
         
         int n = 0; 
         int r = 0;
-        if (Arrays.stream(args).anyMatch("auto"::contains)){
+        if (args.length > 0 && args[0].toLowerCase().startsWith("auto")) {
             n = rand.nextInt(8, 12);
             r = rand.nextInt(5, 8);
         } else {
             Scanner scanner = new Scanner(System.in);
-                System.out.println("Enter the values of n and r (keep n > r)");
-                n = scanner.nextInt();
-                r = scanner.nextInt();
+            System.out.println("Enter the values of n and r (keep n > r)");
+            n = scanner.nextInt();
+            r = scanner.nextInt();
             
         }
         

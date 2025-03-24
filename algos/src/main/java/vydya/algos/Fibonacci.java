@@ -20,14 +20,14 @@ public class Fibonacci {
     }
 
     public static void main(String[] args) {
-        System.out.println("\nRunning Fibonacci.."+Arrays.toString(args));
+        System.out.println("\nRunning Fibonacci..");
         int n = 0;
-        if (Arrays.stream(args).anyMatch("auto"::contains)){
+        if (args.length > 0 && args[0].toLowerCase().startsWith("auto")) {
             n = rand.nextInt(10,20);
         } else {
             Scanner scanner = new Scanner(System.in);
-                System.out.println("Enter the value of n (keep n >=1 )");
-                n = scanner.nextInt();
+            System.out.println("Enter the value of n (keep n >=1 )");
+            n = scanner.nextInt();
             
         }
         Fibonacci fib = new Fibonacci();

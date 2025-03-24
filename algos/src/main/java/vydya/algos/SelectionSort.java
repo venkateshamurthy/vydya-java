@@ -39,9 +39,9 @@ public class SelectionSort {
     }
     
     public static void main(String[] args) {
-        System.out.println("\nRuning Selection Sort..."+Arrays.toString(args));
+        System.out.println("\nRuning Selection Sort...");
         int[] input;
-        if(Arrays.stream(args).anyMatch("auto"::contains))
+        if (args.length > 0 && args[0].toLowerCase().startsWith("auto"))
             input = createRandomArray(rand.nextInt(10, 20));
         else
             input = createRandomArray();

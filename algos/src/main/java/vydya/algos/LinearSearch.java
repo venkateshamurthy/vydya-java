@@ -48,9 +48,9 @@ public class LinearSearch {
     }
     
     public static void main(String[] args) {
-        System.out.println("\nRunning Linear Search on an integer array.."+Arrays.toString(args));
+        System.out.println("\nRunning Linear Search on an integer array..");
         LinearSearch searcher;
-        if(Arrays.stream(args).anyMatch("auto"::contains))
+        if (args.length > 0 && args[0].toLowerCase().startsWith("auto"))
             searcher = new LinearSearch(createRandomArray(rand.nextInt(10,20)));
         else
             searcher = new LinearSearch(createRandomArray());
