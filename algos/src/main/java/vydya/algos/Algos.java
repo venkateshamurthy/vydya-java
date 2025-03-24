@@ -13,9 +13,11 @@ import java.util.Arrays;
 public class Algos {
 
     public static void main(String[] args) {
-        final String[] EMPTY=args;//new String[]{"auto"};
-        System.out.println("Running some algorithm problems.."
-                +Arrays.toString(EMPTY));
+        final String[] EMPTY=args;
+        System.out.format("Running some algorithm problems..%s\n",
+                args.length > 0 && args[0].toLowerCase().startsWith("auto")
+                        ? "automatically" 
+                        : "requiring to  manually enter size of the array");
         
         
         SelectionSort.main(EMPTY);
