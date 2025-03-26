@@ -68,22 +68,21 @@ public class QuickSort {
     
     public static void main(String[] args) {
         System.out.println("\nRuning Quick Sort...");
+        
         int[] input;
         if (args.length > 0 && args[0].toLowerCase().startsWith("auto"))
             input = createRandomArray(rand.nextInt(10, 20));
         else
-            input = createRandomArray();
+            input = createRandomArray(getSizeFromUser());
+        
         int[] result = new QuickSort(input).sort();
         System.out.format("Sorted Output :%s\n", Arrays.toString(result));
     }
     
-    static int[] createRandomArray() {
-        int size=10;
-        Scanner scanner = new Scanner(System.in);
-            System.out.print("Enter the size of Integer array:"); 
-            size = scanner.nextInt();
-        
-        return createRandomArray(size);
+   static int getSizeFromUser() {
+        Scanner scanner = new Scanner(System.in) ;
+        System.out.print("Enter the size of Integer array:"); 
+        return scanner.nextInt();
     }
     
     static int[] createRandomArray(int size) {

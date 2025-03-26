@@ -13,20 +13,20 @@ import java.util.Arrays;
 public class Algos {
 
     public static void main(String[] args) {
-        final String[] EMPTY=args;
         System.out.format("Running some algorithm problems..%s\n",
                 args.length > 0 && args[0].toLowerCase().startsWith("auto")
                         ? "automatically" 
                         : "requiring to  manually enter size of the array");
         
         
-        SelectionSort.main(EMPTY);
-        MergeSort.main(EMPTY);
-        QuickSort.main(EMPTY);
-        LinearSearch.main(EMPTY);
-        BinarySearch.main(EMPTY);
-        MinMax.main(EMPTY);
-        Fibonacci.main(EMPTY);
-        NCR.main(EMPTY);
+        SelectionSort.main(args);
+        MergeSort.main(args);
+        QuickSort.main(args);
+        LinearSearch.main(args);
+        BinarySearch.main(args);
+        MinMax.main(args);
+        Fibonacci.main(args);
+        NCR.main(args);
+        Dijkstra.main(args);
     }
 }

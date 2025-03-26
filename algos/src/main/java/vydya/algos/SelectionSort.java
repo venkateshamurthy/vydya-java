@@ -27,9 +27,9 @@ public class SelectionSort {
     }
    
     public void sort(int start, int end) {
-        for (int i = start; i< end - 1; i++){
+        for (int i = start; i < end - 1; i++){
             int minIndex = i;
-            for (int j = i + 1; j<=end; j++){
+            for (int j = i + 1; j <= end; j++){
                 if (data[j] < data[minIndex]) {
                     minIndex = j;
                 }
@@ -40,22 +40,22 @@ public class SelectionSort {
     
     public static void main(String[] args) {
         System.out.println("\nRuning Selection Sort...");
+        
         int[] input;
         if (args.length > 0 && args[0].toLowerCase().startsWith("auto"))
             input = createRandomArray(rand.nextInt(10, 20));
         else
-            input = createRandomArray();
+            input = createRandomArray(getSizeFromUser());
+        
         int[] result = new SelectionSort(input).sort();
+        
         System.out.format("Sorted Output :%s\n", Arrays.toString(result));
     }
     
-    static int[] createRandomArray() {
-        int size=10;
+    static int getSizeFromUser() {
         Scanner scanner = new Scanner(System.in) ;
-            System.out.print("Enter the size of Integer array:"); 
-            size = scanner.nextInt();
-        
-        return createRandomArray(size);
+        System.out.print("Enter the size of Integer array:"); 
+        return scanner.nextInt();
     }
     
     static int[] createRandomArray(int size) {

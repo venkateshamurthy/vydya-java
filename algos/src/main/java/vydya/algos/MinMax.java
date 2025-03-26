@@ -32,11 +32,13 @@ public class MinMax {
 
     public static void main(String[] args) {
         System.out.println("\n\nRunning Min Max on an integer array..");
+        
         int[] input;
         if (args.length > 0 && args[0].toLowerCase().startsWith("auto"))
             input = createRandomArray(rand.nextInt(10, 20));
         else
-            input = createRandomArray();
+            input = createRandomArray(getSizeFromUser());
+        
         MinMax minMax = new MinMax(input);
         long startTime = System.nanoTime();
         int[] result = minMax.findMinMax();
@@ -45,13 +47,10 @@ public class MinMax {
 
     }
      
-    static int[] createRandomArray() {
-        int size=10;
-        Scanner scanner = new Scanner(System.in);
-            System.out.print("Enter the size of Integer array:"); 
-            size = scanner.nextInt();
-        
-        return createRandomArray(size);
+    static int getSizeFromUser() {
+        Scanner scanner = new Scanner(System.in) ;
+        System.out.print("Enter the size of Integer array:"); 
+        return scanner.nextInt();
     }
     
     static int[] createRandomArray(int size) {

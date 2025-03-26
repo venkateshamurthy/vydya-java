@@ -33,12 +33,10 @@ public class BinarySearch {
         return  -1;
     }
      
-    static int[] createRandomArray() {
-        int size=10;
-        Scanner scanner = new Scanner(System.in);
+    static int getSizeFromUser() {
+        Scanner scanner = new Scanner(System.in) ;
         System.out.print("Enter the size of Integer array:"); 
-        size = scanner.nextInt();
-        return createRandomArray(size);
+        return scanner.nextInt();
     }
     
     static int[] createRandomArray(int size) {
@@ -56,7 +54,7 @@ public class BinarySearch {
         if (args.length > 0 && args[0].toLowerCase().startsWith("auto"))
             input = createRandomArray(rand.nextInt(10, 20));
         else
-            input = createRandomArray();
+            input = createRandomArray(getSizeFromUser());
         
         int [] result = new MergeSort(input).sort();
         System.out.format("Sorted Output for Binary Search :%s\n",

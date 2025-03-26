@@ -31,13 +31,10 @@ public class LinearSearch {
     
     // Generate: 880, 493, 190, 446, 956, 497, 788, 481, 614, 623, 399, 691, 808
      
-    static int[] createRandomArray() {
-        int size=10;
-        Scanner scanner = new Scanner(System.in);
-            System.out.print("Enter the size of Integer array:"); 
-            size = scanner.nextInt();
-        
-        return createRandomArray(size);
+    static int getSizeFromUser() {
+        Scanner scanner = new Scanner(System.in) ;
+        System.out.print("Enter the size of Integer array:"); 
+        return scanner.nextInt();
     }
     
     static int[] createRandomArray(int size) {
@@ -53,7 +50,7 @@ public class LinearSearch {
         if (args.length > 0 && args[0].toLowerCase().startsWith("auto"))
             searcher = new LinearSearch(createRandomArray(rand.nextInt(10,20)));
         else
-            searcher = new LinearSearch(createRandomArray());
+            searcher = new LinearSearch(createRandomArray(getSizeFromUser()));
         searcher.search(788);  //present
         searcher.search(-100); //absent
     }

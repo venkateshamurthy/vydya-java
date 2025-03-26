@@ -28,7 +28,6 @@ public class Fibonacci {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Enter the value of n (keep n >=1 )");
             n = scanner.nextInt();
-            
         }
         Fibonacci fib = new Fibonacci();
         System.out.println("n:"+n+"   Result: "+fib.fibonacci(n));
