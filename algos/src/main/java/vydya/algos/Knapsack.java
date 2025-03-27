@@ -84,12 +84,16 @@ public class Knapsack {
                 wi -= w[i - 1];          // next reduce the weight
             }
         }
-        System.out.println("Matrix:"+printMatrix());
-        System.out.println("Items:"+take);
+        System.out.println("\n Matrix:"+printMatrix());
+        System.out.println(" Items:"+take);
         return K[w.length][W];
 
     }
 
+    /**
+     * Print the Knapsack
+     * @return 
+     */
     private  String printMatrix() {
         StringBuilder sb = new StringBuilder("\n");
         for (int i = 0; i < K.length; i++) {
@@ -108,6 +112,7 @@ public class Knapsack {
         final int[] w;
         final int   W;
         
+        // If auto is passed to program all elements are chosen in random
         if (args.length > 0 && args[0].startsWith("auto")) {
             
             System.out.println("Choosing Random number of items, their values and weights");
@@ -117,13 +122,14 @@ public class Knapsack {
             
             for (int i = 0; i< noOfItems; i++) {
                 v[i] = rand.nextInt(10, 100);
-                w[i] = rand.nextInt(1, 10);
+                w[i] = rand.nextInt(1, 10); // this makes matrix bigger so be cautious
             }
             
             W = rand.nextInt(15, 20);
             
         } else {
 /**
+ * An example to use
 Enter the no of items:
 6
 Enter values and weights:
@@ -135,10 +141,11 @@ Enter values and weights:
  7 4
 Enter capacity of the knapsack:
 10
+* Result value should be 19
  */
             Scanner scanner = new Scanner(System.in);
             
-            System.out.println("Enter the no of items:");
+            System.out.print("\nEnter the no of items:");
             noOfItems = scanner.nextInt();
             v = new int[noOfItems];
             w = new int[noOfItems];
@@ -149,10 +156,11 @@ Enter capacity of the knapsack:
                 w[i] = scanner.nextInt();
             }
             
-            System.out.println("Enter capacity of the knapsack:");
+            System.out.print("\nEnter capacity of the knapsack:");
             W = scanner.nextInt();
         }
         Knapsack knapsack = new Knapsack(v, w, W);
-        System.out.format("For a weight of %d Value = %s\n", W, knapsack.compute());
+        System.out.format(" For a knapsack that can hold upto %d weight;"
+                + " max profit = %s\n", W, knapsack.compute());
     }
 }
