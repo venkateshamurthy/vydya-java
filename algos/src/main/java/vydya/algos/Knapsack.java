@@ -129,6 +129,7 @@ public class Knapsack {
             
         } else {
 /**
+ * This option requires user input
  * An example to use
 Enter the no of items:
 6
