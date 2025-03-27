@@ -28,5 +28,6 @@ public class Algos {
         Fibonacci.main(args);
         NCR.main(args);
         Dijkstra.main(args);
+        Knapsack.main(args);
     }
 }
