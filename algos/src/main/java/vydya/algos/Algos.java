@@ -29,5 +29,6 @@ public class Algos {
         NCR.main(args);
         Dijkstra.main(args);
         Knapsack.main(args);
+        KnapsackUsingHashMap.main(args);
     }
 }

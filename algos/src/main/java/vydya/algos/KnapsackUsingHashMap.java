@@ -4,8 +4,14 @@ import static java.lang.Math.max;
 import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Deque;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.Set;
+import java.util.function.Supplier;
 
 /**
  * Eg: For max weight of 10 (2+ 3 + 1 + 4) we get max value 19 (4 + 5 + 3 + 7)
@@ -31,17 +37,26 @@ import java.util.Scanner;
  *
  * @author vydya
  */
-public class Knapsack {
+public class KnapsackUsingHashMap {
+    private static class Key {
+        private final int i, c;
+        private Key (int i, int c)    { this.i = i; this.c = c; }
+        public static Key key(int i, int c){return new Key(i, c);}
+        public int hashCode() { return Objects.hash(i, c);}
+        public boolean equals(Object o){Key k = (Key)o; return k.i==i && k.c==c;}
+        public String toString() { return String.format("[%d, %d]", i, c);}
+    }
+    
     static final  Random rand = new Random(10L);
     
     final int[] v;// =  {6, 4, 5, 3, 9, 7};
     final int[] w;//  = {4, 2, 3, 1, 6, 4};
     final int   W;
     
-    final int[][] K;// = new int[n + 1][W + 1];
+    final Map<Key, Integer> K;// = new int[n + 1][W + 1];
     final int n;
     
-    public Knapsack(int[] v, int[] w, int W) {
+    public KnapsackUsingHashMap(int[] v, int[] w, int W) {
         if (v.length != w.length) {
             System.err.println(" Values and weights dont match in sizes");
             System.exit(-1);
@@ -50,16 +65,17 @@ public class Knapsack {
         this.v = v;
         this.w = w;
         this.W = W;
+        this.n = v.length;
+        this.K = new LinkedHashMap<>();
+        put(0, 0, 0);
         
-        n = v.length;
-        K = new int[n][W + 1];
+        System.out.format("\nvalues :%s\nweights: %s\ncapacity:%d",
+                Arrays.toString(v), Arrays.toString(w), W);
         
-        System.out.println("v:"+Arrays.toString(v));
-        System.out.println("w:"+Arrays.toString(w));
     }
             
-    int  get(int i, int c)          { return K[i][c]; }
-    void put(int i, int c, int val) { K[i][c] = val;  }
+    int  get(int i, int c)          { return K.getOrDefault(Key.key(i,c), 0);}
+    void put(int i, int c, int val) { K.put(Key.key(i,c), val);   }
     
     public int compute() {
         
@@ -68,12 +84,10 @@ public class Knapsack {
         for (int i = 1; i < n; i++) {
             
             for (int c = 1; c <= W; c++) {
-                int val;
+                int val = get(i - 1, c);
                 
                 if (w[i] <= c)
-                    val = max(v[i] + get(i - 1, c - w[i]), get(i - 1, c));
-                else
-                    val = get(i - 1, c);
+                    val = max(v[i] + get(i - 1, c - w[i]), val);
                 
                 put(i , c, val);
             }
@@ -89,54 +103,58 @@ public class Knapsack {
             }
         }
         
-        System.out.println("\n Matrix:"+printMatrix());
+        System.out.println("\n Matrix:"+printKnapsack());
         System.out.println(" Items:"+take);
         
         return get(n - 1, W);
 
     }
 
-    /**
-     * Print the Knapsack
-     * @return 
-     */
-    private  String printMatrix() {
-        StringBuilder sb = new StringBuilder("\n");
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j <= W; j++) {
-                sb.append(String.format(" %03d ", get(i, j)));
-            }
-            sb.append("\n\n");
+    private  String printKnapsack() {
+        //print only such entries where the value changes
+        Set<Integer> set  = new HashSet<>();
+        return  K.entrySet().stream()
+                .filter(e -> set.add(e.getValue()))
+                .map(e -> String.format("%12s,", e))
+                .reduce("", String::concat);
+    }
+     
+    static KnapsackUsingHashMap build(Supplier<Integer> size,
+            Supplier<Integer> items, Supplier<Integer> capacity) {
+        final int noOfItems, W;
+        final int[] v, w;
+        
+        System.out.println("Enter number of items: ");
+        noOfItems = size.get();
+        v = new int[noOfItems + 1];
+        w = new int[noOfItems + 1];
+
+        System.out.println("Enter values and weights of items: ");
+        for (int i = 1; i <= noOfItems; i++) {
+            v[i] = items.get();
+            w[i] = items.get();
         }
-        return sb.toString();
+        
+        System.out.print("Enter knapsack capacity: ");
+        W = capacity.get();
+
+        return new KnapsackUsingHashMap(v, w, W);
     }
 
     public static void main(String[] args) {
-        System.out.println("\nRunning Knapsack...");
-        final int noOfItems;
-        final int[] v;
-        final int[] w;
-        final int   W;
+        System.out.println("\nRunning Knapsack using Hash Map...");
+        KnapsackUsingHashMap knapsack;
         
-        // If auto is passed to program all elements are chosen in random
         if (args.length > 0 && args[0].startsWith("auto")) {
-            
             System.out.println("Choosing Random number of items, their values and weights");
-            noOfItems = rand.nextInt(6, 10);
-            v = new int[noOfItems + 1];
-            w = new int[noOfItems + 1];
-            
-            for (int i = 1; i <= noOfItems; i++) {
-                v[i] = rand.nextInt(10, 100);
-                w[i] = rand.nextInt(1, 10); // this makes matrix bigger so be cautious
-            }
-            
-            W = rand.nextInt(15, 20);
-            
+            knapsack = build(
+                    () -> rand.nextInt(10, 20), 
+                    () -> rand.nextInt(10, 100),
+                    () -> rand.nextInt(100, 200)
+            );
         } else {
             /**
-             * This option requires user input
-             * An example to use
+             * This option requires user input. An example to use
             Enter the no of items:
             6
             Enter values and weights:
@@ -149,25 +167,11 @@ public class Knapsack {
             Enter capacity of the knapsack:
             10
             * Result value should be 19
-             */
+            */
             Scanner scanner = new Scanner(System.in);
-            
-            System.out.print("\nEnter the no of items:");
-            noOfItems = scanner.nextInt();
-            v = new int[noOfItems + 1];
-            w = new int[noOfItems + 1];
-            
-            System.out.println("Enter values and weights:");
-            for (int i = 1; i <= noOfItems; i++) {
-                v[i] = scanner.nextInt();
-                w[i] = scanner.nextInt();
-            }
-            
-            System.out.print("\nEnter capacity of the knapsack:");
-            W = scanner.nextInt();
+            knapsack = build(scanner::nextInt, scanner::nextInt, scanner::nextInt);
         }
-        Knapsack knapsack = new Knapsack(v, w, W);
         System.out.format(" For a knapsack that can hold upto %d weight;"
-                + " max profit = %s\n", W, knapsack.compute());
+                + " max profit = %s\n", knapsack.W, knapsack.compute());
     }
 }
