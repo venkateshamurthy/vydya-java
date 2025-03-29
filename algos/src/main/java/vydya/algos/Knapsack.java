@@ -32,14 +32,14 @@ import java.util.Scanner;
  * @author vydya
  */
 public class Knapsack {
-    static final  Random rand = new Random(10L);
+    private static final  Random rand = new Random(10L);
     
-    final int[] v;// =  {6, 4, 5, 3, 9, 7};
-    final int[] w;//  = {4, 2, 3, 1, 6, 4};
-    final int   W;
+    final int[]   v;// =  {6, 4, 5, 3, 9, 7};
+    final int[]   w;//  = {4, 2, 3, 1, 6, 4};
+    final int     W;
+    final int     n;
+    final int[][] K;// = new int[n][W + 1];
     
-    final int[][] K;// = new int[n + 1][W + 1];
-    final int n;
     
     public Knapsack(int[] v, int[] w, int W) {
         if (v.length != w.length) {
@@ -50,9 +50,8 @@ public class Knapsack {
         this.v = v;
         this.w = w;
         this.W = W;
-        
-        n = v.length;
-        K = new int[n][W + 1];
+        this.n = v.length;
+        this.K = new int[n][W + 1];
         
         System.out.println("v:"+Arrays.toString(v));
         System.out.println("w:"+Arrays.toString(w));
@@ -89,8 +88,8 @@ public class Knapsack {
             }
         }
         
-        System.out.println("\n Matrix:"+printMatrix());
-        System.out.println(" Items:"+take);
+        System.out.println("\nMatrix:"+printMatrix());
+        System.out.println("Items:"+take);
         
         return get(n - 1, W);
 
@@ -113,59 +112,25 @@ public class Knapsack {
 
     public static void main(String[] args) {
         System.out.println("\nRunning Knapsack...");
-        final int noOfItems;
+        final int   noOfItems;
         final int[] v;
         final int[] w;
         final int   W;
         
-        // If auto is passed to program all elements are chosen in random
-        if (args.length > 0 && args[0].startsWith("auto")) {
-            
-            System.out.println("Choosing Random number of items, their values and weights");
-            noOfItems = rand.nextInt(6, 10);
-            v = new int[noOfItems + 1];
-            w = new int[noOfItems + 1];
-            
-            for (int i = 1; i <= noOfItems; i++) {
-                v[i] = rand.nextInt(10, 100);
-                w[i] = rand.nextInt(1, 10); // this makes matrix bigger so be cautious
-            }
-            
-            W = rand.nextInt(15, 20);
-            
-        } else {
-            /**
-             * This option requires user input
-             * An example to use
-            Enter the no of items:
-            6
-            Enter values and weights:
-             6 4
-             4 2
-             5 3
-             3 1
-             9 6
-             7 4
-            Enter capacity of the knapsack:
-            10
-            * Result value should be 19
-             */
-            Scanner scanner = new Scanner(System.in);
-            
-            System.out.print("\nEnter the no of items:");
-            noOfItems = scanner.nextInt();
-            v = new int[noOfItems + 1];
-            w = new int[noOfItems + 1];
-            
-            System.out.println("Enter values and weights:");
-            for (int i = 1; i <= noOfItems; i++) {
-                v[i] = scanner.nextInt();
-                w[i] = scanner.nextInt();
-            }
-            
-            System.out.print("\nEnter capacity of the knapsack:");
-            W = scanner.nextInt();
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("\nEnter the no of items:"); // 6
+        noOfItems = scanner.nextInt();                
+        v = new int[noOfItems + 1];
+        w = new int[noOfItems + 1];
+        
+        System.out.println("Enter values and weights:");
+        for (int i = 1; i <= noOfItems; i++) {        // 6 4 4 2 5 3 3 1 9 6 7 4
+            v[i] = scanner.nextInt();
+            w[i] = scanner.nextInt();
         }
+        System.out.print("\nEnter capacity of the knapsack:");
+        W = scanner.nextInt();                        // 10
+        
         Knapsack knapsack = new Knapsack(v, w, W);
         System.out.format(" For a knapsack that can hold upto %d weight;"
                 + " max profit = %s\n", W, knapsack.compute());

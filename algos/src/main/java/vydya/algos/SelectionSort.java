@@ -13,13 +13,10 @@ import java.util.Scanner;
  * @author vydya
  */
 public class SelectionSort {
-    static final  Random rand = new Random(10L);
-    final int[] data;
+    private static final  Random rand = new Random(10L);
+    private final int[] data;
 
-    public SelectionSort(int[] input) {
-        data = input;
-    }
-    
+    public SelectionSort(int[] input) {data = input;}
     
     int[] sort() {
         sort(0, data.length - 1);
@@ -40,25 +37,14 @@ public class SelectionSort {
     
     public static void main(String[] args) {
         System.out.println("\nRuning Selection Sort...");
-        
-        int[] input;
-        if (args.length > 0 && args[0].toLowerCase().startsWith("auto"))
-            input = createRandomArray(rand.nextInt(10, 20));
-        else
-            input = createRandomArray(getSizeFromUser());
-        
+        Scanner scanner = new Scanner(System.in) ;
+        System.out.print("Enter the size of Integer array:"); 
+        int[] input = createRandomArray(scanner.nextInt());
         int[] result = new SelectionSort(input).sort();
-        
         System.out.format("Sorted Output :%s\n", Arrays.toString(result));
     }
     
-    static int getSizeFromUser() {
-        Scanner scanner = new Scanner(System.in) ;
-        System.out.print("Enter the size of Integer array:"); 
-        return scanner.nextInt();
-    }
-    
-    static int[] createRandomArray(int size) {
+    public static int[] createRandomArray(int size) {
         int[] input = new int[size];
         for (int i = 0; i < input.length; i++) input[i] = rand.nextInt(100, 1000);
         System.out.format("Unsorted Input:%s\n" , Arrays.toString(input));

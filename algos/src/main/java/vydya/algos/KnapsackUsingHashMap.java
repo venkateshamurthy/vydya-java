@@ -3,10 +3,12 @@ import static java.lang.Math.max;
 
 import java.util.ArrayDeque;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Random;
 import java.util.Scanner;
@@ -113,7 +115,11 @@ public class KnapsackUsingHashMap {
     private  String printKnapsack() {
         //print only such entries where the value changes
         Set<Integer> set  = new HashSet<>();
+        Comparator<Entry<Key, Integer>> comp = 
+                Comparator.comparing(Entry::getValue, Comparator.reverseOrder());
+        
         return  K.entrySet().stream()
+                .sorted(comp)
                 .filter(e -> set.add(e.getValue()))
                 .map(e -> String.format("%12s,", e))
                 .reduce("", String::concat);
@@ -143,34 +149,24 @@ public class KnapsackUsingHashMap {
 
     public static void main(String[] args) {
         System.out.println("\nRunning Knapsack using Hash Map...");
-        KnapsackUsingHashMap knapsack;
-        
-        if (args.length > 0 && args[0].startsWith("auto")) {
-            System.out.println("Choosing Random number of items, their values and weights");
-            knapsack = build(
-                    () -> rand.nextInt(10, 20), 
-                    () -> rand.nextInt(10, 100),
-                    () -> rand.nextInt(100, 200)
-            );
-        } else {
-            /**
-             * This option requires user input. An example to use
-            Enter the no of items:
-            6
-            Enter values and weights:
-             6 4
-             4 2
-             5 3
-             3 1
-             9 6
-             7 4
-            Enter capacity of the knapsack:
-            10
-            * Result value should be 19
-            */
-            Scanner scanner = new Scanner(System.in);
-            knapsack = build(scanner::nextInt, scanner::nextInt, scanner::nextInt);
-        }
+        /**
+         * This option requires user input. An example to use
+        Enter the no of items:
+        6
+        Enter values and weights:
+         6 4
+         4 2
+         5 3
+         3 1
+         9 6
+         7 4
+        Enter capacity of the knapsack:
+        10
+        * Result value should be 19
+        */
+        Scanner scanner = new Scanner(System.in);
+        KnapsackUsingHashMap knapsack = build(scanner::nextInt,
+                scanner::nextInt, scanner::nextInt);
         System.out.format(" For a knapsack that can hold upto %d weight;"
                 + " max profit = %s\n", knapsack.W, knapsack.compute());
     }

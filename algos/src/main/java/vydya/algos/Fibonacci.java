@@ -22,15 +22,10 @@ public class Fibonacci {
     public static void main(String[] args) {
         System.out.println("\nRunning Fibonacci..");
         int n = 0;
-        if (args.length > 0 && args[0].toLowerCase().startsWith("auto")) {
-            n = rand.nextInt(10,20);
-        } else {
-            Scanner scanner = new Scanner(System.in);
-            System.out.println("Enter the value of n (keep n >=1 )");
-            n = scanner.nextInt();
-        }
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the value of n (keep n >=1 )");
+        n = scanner.nextInt();
         Fibonacci fib = new Fibonacci();
         System.out.println("n:"+n+"   Result: "+fib.fibonacci(n));
-
     }
 }

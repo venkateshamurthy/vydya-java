@@ -11,7 +11,7 @@ import java.util.Scanner;
  * @author vydya
  */
 public class MergeSort {
-    static final  Random rand = new Random(10L);
+    private static final  Random rand = new Random(10L);
     // These fields are DECLARED final and hence MUST BE INITIALIZED in Constructor
     private final int[] data;
     private final int[] temp;
@@ -23,7 +23,7 @@ public class MergeSort {
     }
     
     
-    int[] sort() {
+    public int[] sort() {
         sort(0, data.length - 1);
         return data;
     }
@@ -89,25 +89,14 @@ public class MergeSort {
     
     public static void main(String[] args) {
         System.out.println("\nRuning Merge Sort...");
-        
-        int[] input;
-        if (args.length > 0 && args[0].toLowerCase().startsWith("auto"))
-            input = createRandomArray(rand.nextInt(10, 20));
-        else
-            input = createRandomArray(getSizeFromUser());
-        
+        Scanner scanner = new Scanner(System.in) ;
+        System.out.print("Enter the size of Integer array:");
+        int[] input = createRandomArray(scanner.nextInt());
         int[] result = new MergeSort(input).sort();
-        
         System.out.format("Sorted Output :%s\n", Arrays.toString(result));
     }
      
-    static int getSizeFromUser() {
-        Scanner scanner = new Scanner(System.in) ;
-        System.out.print("Enter the size of Integer array:"); 
-        return scanner.nextInt();
-    }
-    
-    static int[] createRandomArray(int size) {
+    public static int[] createRandomArray(int size) {
         int[] input = new int[size];
         for (int i = 0; i < input.length; i++) input[i] = rand.nextInt(100, 1000);
         System.out.format("Unsorted Input:%s\n" , Arrays.toString(input));

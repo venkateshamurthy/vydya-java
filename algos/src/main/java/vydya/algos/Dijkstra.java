@@ -12,17 +12,14 @@ import java.util.Random;
 import java.util.Scanner;
 
 class V implements Comparable<V> {
-    
-    
     final Integer id;
     double d = Double.POSITIVE_INFINITY;
     V u;// parent
 
     E[] edges;
 
-    private V(Integer id) {
-        this.id = id;
-    }
+    private V(Integer id) {this.id = id;}
+    
     public Integer getId() { return id;}
     public static V of(int id) {return new V(id);}
     
@@ -34,14 +31,11 @@ class V implements Comparable<V> {
         }
     }
 
-    public int compareTo(V other) {
-        return Double.compare(d, other.d);
-    }
+    public int compareTo(V other) {return Double.compare(d, other.d);}
 
 }
 
 class E {
-
     final V v;
     final double w;
 
@@ -53,15 +47,14 @@ class E {
     public static E of(V v, double w) {
         return new E(v, w);
     }
-
 }
 
 public class Dijkstra {
     
-    static final Random rand = new Random(10L);
-    final PriorityQueue<V> Q = new PriorityQueue<>();
-    final Map<Integer, V> map = new HashMap<>();
-    final int[][] array;
+    private static final Random rand = new Random(10L);
+    private final PriorityQueue<V> Q = new PriorityQueue<>();
+    private final Map<Integer, V> map = new HashMap<>();
+    private final int[][] array;
     
     Dijkstra(int[][] data) {
         this.array = data;
@@ -76,9 +69,8 @@ public class Dijkstra {
             
             for(int j = 0; j < size; j++) {
                 
-                if(array[i][j] != 0) {
+                if(array[i][j] != 0)
                     es.add(E.of(map.get(j), array[i][j]));
-                }
             }
             map.get(i).edges = es.toArray(E[]::new);
         }
@@ -112,7 +104,7 @@ public class Dijkstra {
         
         Arrays.stream(array)
                 .map(Arrays::toString)
-                .map(s->s.replaceAll("\\[|\\]",""))
+                .map(s -> s.replaceAll("\\[|\\]", ""))
                 .forEach(System.out::println);
     }
     
@@ -157,9 +149,7 @@ public class Dijkstra {
         return path;
     }
 
-    public V vertex(int i) {
-        return map.get(i);
-    }
+    public V vertex(int i) {return map.get(i);}
     
     /**
      * Resf: https://www.geeksforgeeks.org/dijkstras-shortest-path-algorithm-greedy-algo-7/
@@ -184,34 +174,24 @@ public class Dijkstra {
         final int size;
         int start = 0, end = 0;
         
-        if (args.length > 0 && args[0].startsWith("auto")) {
-            
-            size = rand.nextInt(10, 20);
-            System.out.println("Assuming a random size(10, 20) of 2D array to build the graph :"+size);
-            dijk = new Dijkstra(size);
-            end = rand.nextInt(start, size);
-        } else {
-            // assume an adjaceny matrix of 9x9
-            int [][]data = {{ 0, 4, 0, 0, 0, 0, 0, 8, 0 },
-                            { 4, 0, 8, 0, 0, 0, 0, 11, 0 },
-                            { 0, 8, 0, 7, 0, 4, 0, 0, 2 },
-                            { 0, 0, 7, 0, 9, 14, 0, 0, 0 },
-                            { 0, 0, 0, 9, 0, 10, 0, 0, 0 },
-                            { 0, 0, 4, 14, 10, 0, 2, 0, 0 },
-                            { 0, 0, 0, 0, 0, 2, 0, 1, 6 },
-                            { 8, 11, 0, 0, 0, 0, 1, 0, 7 },
-                            { 0, 0, 2, 0, 0, 0, 6, 7, 0 }};
-            
-            dijk = new Dijkstra(data);
-            size = data[0].length;
-            Scanner scanner = new Scanner(System.in);
-            System.out.print("Enter start and end vertex within "+(size-1)+":");
-            start = scanner.nextInt();
-            end = scanner.nextInt();
-            dijk = new Dijkstra(size);
-            
-        }
-        
+        // assume an adjaceny matrix of 9x9
+        int [][]data = {{ 0, 4, 0, 0, 0, 0, 0, 8, 0 },
+                        { 4, 0, 8, 0, 0, 0, 0, 11, 0 },
+                        { 0, 8, 0, 7, 0, 4, 0, 0, 2 },
+                        { 0, 0, 7, 0, 9, 14, 0, 0, 0 },
+                        { 0, 0, 0, 9, 0, 10, 0, 0, 0 },
+                        { 0, 0, 4, 14, 10, 0, 2, 0, 0 },
+                        { 0, 0, 0, 0, 0, 2, 0, 1, 6 },
+                        { 8, 11, 0, 0, 0, 0, 1, 0, 7 },
+                        { 0, 0, 2, 0, 0, 0, 6, 7, 0 }};
+
+        dijk = new Dijkstra(data);
+        size = data[0].length;
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter start and end vertex within "+(size-1)+":");
+        start = scanner.nextInt();
+        end = scanner.nextInt();
+        dijk = new Dijkstra(size);
         
         Deque<V> path = dijk.computePaths(start, end); // run Dijkstra
         System.out.println("\nDistance from "+start+" to "+end+" = "+ dijk.vertex(end).d);

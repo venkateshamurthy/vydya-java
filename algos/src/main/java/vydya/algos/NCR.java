@@ -59,22 +59,12 @@ public class NCR {
         
         int n = 0; 
         int r = 0;
-        
-        if (args.length > 0 && args[0].toLowerCase().startsWith("auto")) {
-            
-            // if its auto just randomly assume n in [8, 12) and r in [5, 8)
-            n = rand.nextInt(8, 12);
-            r = rand.nextInt(5, 8);
-            
-        } else {
-            
-            // so this must be manual hence do enter n and r by yourself.
-            Scanner scanner = new Scanner(System.in);
-            System.out.println("Enter the values of n and r (keep n > r)");
-            n = scanner.nextInt();
-            r = scanner.nextInt();
-            // Dont close Scanner here as you may be running other programs
-        }
+        // so this must be manual hence do enter n and r by yourself.
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the values of n and r (keep n > r)");
+        n = scanner.nextInt();
+        r = scanner.nextInt();
+        // Dont close Scanner here as you may be running other programs
         
         NCR ncr = new NCR();
         System.out.format("n=%d, r=%d nCr=%d%n", n, r, ncr.ncr(n, r));
