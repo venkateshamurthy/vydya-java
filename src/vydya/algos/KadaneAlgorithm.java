@@ -13,7 +13,7 @@ class KadaneAlgorithm {
         for (int i = 1; i < input.length; i++) {
             localMax = max(localMax + input[i], input[i]);
             if(localMax == input[i]) start = i;
-            if(localMax > globalMax) end = i;
+            if(localMax > globalMax) end   = i;
             globalMax = max(localMax, globalMax);
         }
 
