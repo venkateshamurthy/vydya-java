@@ -4,7 +4,7 @@ import java.util.*;
 
 import static java.lang.Integer.MAX_VALUE;
 
-public class Graph {
+public class Prim {
     PriorityQueue<V> Q = new PriorityQueue<>();
     List<V> vertices=new ArrayList<>();
     Map<V, List<V>> adj = new HashMap<>();
@@ -24,12 +24,12 @@ public class Graph {
         0 - 3 	6
         1 - 4 	5
         */
-        Graph g = new Graph(graph);
+        Prim g = new Prim(graph);
         g.prim(0);
         System.out.println(g.vertices);
     }
 
-    public Graph(int[][] matrix) {
+    public Prim(int[][] matrix) {
         for (int i = 0; i < matrix.length; i++)
             vertices.add(new V(i));
 
