@@ -39,8 +39,10 @@ public class SelectionSort {
     }
 
     static void swap(int[] a, int i, int j) {
-        int temp = a[i];
-        a[i] = a[j];
-        a[j] = temp;
+        if ( i != j && a[i] != a[j]) {
+            int temp = a[i];
+            a[i] = a[j];
+            a[j] = temp;
+        }
     }
 }
