@@ -7,13 +7,12 @@ public class Floyd {
     static int INF = MAX_VALUE;
     public static void main(String[] args) {
         int[][] dist = {
-              //  0  1   2       3
-                { 0, 4,  INF,    5},  // 0
-                { INF, 0, 1,   INF},  // 1
-                { 2, INF, 0,     3},  // 2
-                { INF, INF, 1,   0},  // 3
+              //  0    1     2     3
+                { 0,   4,    INF,  5},  // 0
+                { INF, 0,    1,    INF},  // 1
+                { 2,   INF,  0,    3},  // 2
+                { INF, INF,  1,    0},  // 3
                 };
-
 
         floydWarshall(dist);
         for (int i = 0; i < dist.length; i++) {

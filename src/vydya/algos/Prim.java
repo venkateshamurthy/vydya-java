@@ -5,10 +5,10 @@ import java.util.*;
 import static java.lang.Integer.MAX_VALUE;
 
 public class Prim {
-    PriorityQueue<V> Q = new PriorityQueue<>();
-    List<V> vertices=new ArrayList<>();
-    Map<V, List<V>> adj = new HashMap<>();
-    Map<V, List<E>> edgeMap = new HashMap<>();
+    PriorityQueue<V> Q   = new PriorityQueue<>();
+    List<V> vertices     = new ArrayList<>();
+    Map<V, List<V>> adjV = new HashMap<>();
+    Map<V, List<E>> adjE = new HashMap<>();
 
     public static void main(String[] args) {
         int graph[][] = new int[][] {
@@ -35,14 +35,14 @@ public class Prim {
 
         for (int i = 0; i < matrix.length; i++) {
             V u = vertices.get(i);
-            adj.put(u, new ArrayList<>());
-            edgeMap.put(u, new ArrayList<>());
+            adjV.put(u, new ArrayList<>());
+            adjE.put(u, new ArrayList<>());
 
             for (int j = 0; j < matrix[i].length; j++) {
                 if (matrix[i][j] > 0) {
                     V v = vertices.get(j);
-                    adj.get(u).add(v);
-                    edgeMap.get(u).add(new E(v, matrix[i][j]) );
+                    adjV.get(u).add(v);
+                    adjE.get(u).add(new E(v, matrix[i][j]) );
                 }
             }
         }
@@ -56,19 +56,19 @@ public class Prim {
 
         while (!Q.isEmpty()) {
             V u = Q.poll();
-            for (V v: adj.get(u)) {
+            for (V v: adjV.get(u)) {
                 if (Q.contains(v) && w(u, v) < v.key){
                     Q.remove(v);
                     v.pi = u;
                     v.key = w(u, v);
-                    Q.add(v);
+                    Q.add(v); //this add re-prioritizes
                 }
             }
         }
     }
 
     int w(V u, V v) {
-        List<E> edges = edgeMap.get(u);
+        List<E> edges = adjE.get(u);
         for (E e : edges) {
             if (e.to.equals(v))
                 return e.weight;
@@ -78,7 +78,7 @@ public class Prim {
 }
 
 class E implements Comparable<E> {
-    V to;
+    V   to;
     int weight;
     E(V v, int w) { to = v; weight = w; }
 
@@ -90,13 +90,10 @@ class V implements Comparable<V> {
     int id; int key; V pi;
     public V(int id) { this(id, MAX_VALUE); }
     public V(int id, int key) { this.id = id; this.key = key; }
+
     public boolean equals(Object o) {return (o instanceof V) &&  id == ((V) o).id;}
     public int hashCode() { return Objects.hashCode(id); }
+
     public int compareTo(V o) {return key - o.key;}
-    public String toString() {
-        if (pi != null) {
-            return pi.id+"--("+key+")-->"+id;
-        }
-        return id+"";
-    }
+    public String toString() {return pi==null? id+"" : pi.id+"--("+key+")-->"+id;}
 }
