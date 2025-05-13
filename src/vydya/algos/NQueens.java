@@ -10,27 +10,27 @@ public class NQueens {
         Scanner scanner = new Scanner(System.in);
         System.out.print("This is NQueens problem. So enter number of queens:");
         int n = scanner.nextInt();
-        int[] board = new int[n];
-        if (placeQueens(board, 0)) {
-            printBoard(board);
+        int[] queens = new int[n];
+        if (placeQueens(queens, 0)) {
+            printBoard(queens);
         } else {
             System.out.println("No solution found.");
         }
         scanner.close();
     }
 
-    private static boolean placeQueens(int[] board, int row) {
-        int n = board.length;
-        if (row == n) {
+    private static boolean placeQueens(int[] queens, int queenNum) {
+        int n = queens.length;
+        if (queenNum == n) {
             return true;                                // All queens are placed successfully
         }
         for (int col = 0; col < n; col++) {
-            if (isSafe(board, row, col)) {
-                board[row] = col;                       // Good, queen is at (row, col)
-                if (placeQueens(board, row + 1)) { // Now try to place next queen
+            if (isSafe(queens, queenNum, col)) {
+                queens[queenNum] = col;                       // Good, queen is at (row, col)
+                if (placeQueens(queens, queenNum + 1)) { // Now try to place next queen
                     return true;
                 }
-                board[row] = -1;                        // Oh! Backtrack: Remove queen from this column
+                queens[queenNum] = -1;                        // Oh! Backtrack: Remove queen from this column
             }
         }
         return false;                                  // No safe position found in this row
