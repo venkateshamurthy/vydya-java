@@ -22,18 +22,17 @@ public class SubsetSum {
     public static void main(String[] args) {
         // 3 1 2 5 4
         Scanner scanner = new Scanner(System.in);
-        
         System.out.print("Enter number of elements: ");
         int n = scanner.nextInt();
 
-        arr = new int[n];
+        SubsetSum.arr = new int[n];
         System.out.println("Enter elements:");
         for (int i = 0; i < n; i++) {
             arr[i] = scanner.nextInt();
         }
 
         System.out.print("Enter target sum: ");
-        target = scanner.nextInt();
+        SubsetSum.target = scanner.nextInt();
 
         findSubset(0, 0, "");
 
