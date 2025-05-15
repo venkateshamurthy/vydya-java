@@ -44,10 +44,10 @@ public class BinarySearch {
         
         System.out.print("Enter the size of Integer array:"); 
         int[] input  = createRandomArray(scanner.nextInt()) ;
-        int[] result = new MergeSort(input).sort();
+        Arrays.sort(input);
         
-        System.out.format("Sorted Output for Binary Search :%s\n", Arrays.toString(result));
-        BinarySearch searcher = new BinarySearch(result);
+        System.out.format("Sorted Output for Binary Search :%s\n", Arrays.toString(input));
+        BinarySearch searcher = new BinarySearch(input);
         
         searcher.search(788);  //present
         searcher.search(-100); //absent

@@ -19,35 +19,39 @@ public class SelectionSort {
     public SelectionSort(int[] input) {data = input;}
     
     int[] sort() {
-        sort(0, data.length - 1);
-        return data;
-    }
-   
-    public void sort(int start, int end) {
-        for (int i = start; i < end - 1; i++){
-            int minIndex = i;
-            for (int j = i + 1; j <= end; j++){
-                if (data[j] < data[minIndex]) {
-                    minIndex = j;
+        int n = data.length;
+        for (int i = 0; i < n - 1; i++) {
+            int jMin = i;
+            for (int j = i + 1; j < n; j++) {
+                if (data[j] < data[jMin]) {
+                    jMin = j;
                 }
             }
-            swap(i, minIndex);
+            swap(i, jMin);
         }
+        return data;
+    }
+
+    private static void sortInput(int[] input) {
+        System.out.println("Input:"+Arrays.toString(input));
+        SelectionSort selectionSort = new SelectionSort(input);
+        selectionSort.sort();
+        System.out.println("Sorted output:"+Arrays.toString(input));
     }
     
     public static void main(String[] args) {
-        System.out.println("\nRuning Selection Sort...");
+        System.out.println("\nRunning Selection Sort on user inputs...");
+        sortInput(new int[]{89,45,68,90,29,34,17});
+
         Scanner scanner = new Scanner(System.in) ;
         System.out.print("Enter the size of Integer array:"); 
         int[] input = createRandomArray(scanner.nextInt());
-        int[] result = new SelectionSort(input).sort();
-        System.out.format("Sorted Output :%s\n", Arrays.toString(result));
+        sortInput(input);
     }
     
     public static int[] createRandomArray(int size) {
         int[] input = new int[size];
         for (int i = 0; i < input.length; i++) input[i] = rand.nextInt(100, 1000);
-        System.out.format("Unsorted Input:%s\n" , Arrays.toString(input));
         return input;
     }
     

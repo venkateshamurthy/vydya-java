@@ -41,8 +41,8 @@ public class Warshall {
                     }
                 }
             }
-            for (int i = 0; i < reach.length; i++) {
-                System.out.println(Arrays.toString(reach[i]));
+            for (int[] ints : reach) {
+                System.out.println(Arrays.toString(ints));
             }
         }
 

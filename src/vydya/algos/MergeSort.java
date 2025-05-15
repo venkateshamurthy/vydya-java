@@ -6,6 +6,7 @@ package vydya.algos;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
+
 /**
  *
  * @author vydya
@@ -21,8 +22,7 @@ public class MergeSort {
         data = input;
         temp = new int[(1 + input.length) / 2];
     }
-    
-    
+
     public int[] sort() {
         sort(0, data.length - 1);
         return data;
@@ -37,18 +37,10 @@ public class MergeSort {
      * @param end   index of the array
      */
     public void sort(int start, int end) {
-        
-        // Remember this: You cannot sort if start >= end. so check this condition
         if (start < end) {
-            
-            //Find the mid point
             int mid = start + (end - start) / 2;
-
-            //Sort both halves
             sort(start,   mid);
             sort(mid + 1, end);
-
-            //Merge both the sorted halves
             merge(start, mid, end);
         }
     }
@@ -68,8 +60,6 @@ public class MergeSort {
      * @param end   index of the array
      */
     void merge(int start, int mid, int end) {
-        
-        //Copy the 1st half of data to a temp array
         int tLen = mid - start + 1;
         System.arraycopy(data, start, temp, 0, tLen);
         
@@ -79,33 +69,51 @@ public class MergeSort {
         int j = 0;       // Point it to temp array (i.e  0)
         
         // Do the merge
-        while(i <= end && j < tLen) data[k++] = // compare-copy 2nd-half and temp
-                data[i] < temp[j] ? data[i++] : temp[j++];
-        
-        //Remember only one of the 2nd half or temp might have left overs
-        while(i <= end) data[k++] = data[i++]; // If 2nd half has left over
-        while(j < tLen) data[k++] = temp[j++]; // If temp has left over
+        while(i <= end && j < tLen) data[k++] = data[i] < temp[j] ? data[i++] : temp[j++];
+        while(i <= end)             data[k++] = data[i++]; // If 2nd half has left over
+        while(j < tLen)             data[k++] = temp[j++]; // If temp has left over
+    }
+
+    private static void sortInput(String inputString) {
+        System.out.println("Input:"+inputString);
+        int[] input = new int[inputString.length()];
+        for (int i = 0; i < inputString.length(); i++) {
+            input[i] = inputString.charAt(i);
+        }
+        MergeSort mergeSort = new MergeSort(input);
+        mergeSort.sort();
+
+        String out = "";
+        for (int j : input) {
+            out += (char) j;
+        }
+        System.out.println("Sorted output:"+out);
+    }
+
+    private static void sortInput(int[] input) {
+        System.out.println("Input:"+Arrays.toString(input));
+        MergeSort mergeSort = new MergeSort(input);
+        mergeSort.sort();
+        System.out.println("Sorted output:"+Arrays.toString(input));
     }
     
     public static void main(String[] args) {
-        System.out.println("\nRuning Merge Sort...");
+        System.out.println("\nRunning Merge Sort on user defined inputs...");
+        sortInput("THANKSGIVING");
+        sortInput("UNIVERSITY");
+        sortInput(new int[]{29, 10, 14, 37, 13, 5, 25});
+
+        System.out.println("\nRunning Merge Sort on random numbers...");
         Scanner scanner = new Scanner(System.in) ;
         System.out.print("Enter the size of Integer array:");
         int[] input = createRandomArray(scanner.nextInt());
-        int[] result = new MergeSort(input).sort();
-        System.out.format("Sorted Output :%s\n", Arrays.toString(result));
+        sortInput(input);
     }
      
     public static int[] createRandomArray(int size) {
         int[] input = new int[size];
         for (int i = 0; i < input.length; i++) input[i] = rand.nextInt(100, 1000);
-        System.out.format("Unsorted Input:%s\n" , Arrays.toString(input));
         return input;
     }
     
-    void swap(int a, int b) {
-        int temp = data[a];
-        data[a] = data[b];
-        data[b] = temp;
-    }
 }

@@ -82,25 +82,27 @@ public class Prim {
         }
         return MAX_VALUE;
     }
+
+    private static class E implements Comparable<E> {
+        V to;
+        int weight;
+        E(V v, int w) { to = v; weight = w; }
+
+        public int compareTo(E o) { return weight - o.weight; }
+        public String toString()  {return to+"("+ weight+")";}
+    }
+
+    private static class V implements Comparable<V> {
+        int id; int key; V pi;
+        public V(int id) { this(id, MAX_VALUE); }
+        public V(int id, int key) { this.id = id; this.key = key; }
+
+        public boolean equals(Object o) {return (o instanceof V) &&  id == ((V) o).id;}
+        public int hashCode() { return Objects.hashCode(id); }
+
+        public int compareTo(V o) {return key - o.key;}
+        public String toString() {return pi==null? id+"" : pi.id+"--("+key+")-->"+id;}
+    }
 }
 
-class E implements Comparable<E> {
-    V   to;
-    int weight;
-    E(V v, int w) { to = v; weight = w; }
 
-    public int compareTo(E o) { return weight - o.weight; }
-    public String toString()  {return to+"("+ weight+")";}
-}
-
-class V implements Comparable<V> {
-    int id; int key; V pi;
-    public V(int id) { this(id, MAX_VALUE); }
-    public V(int id, int key) { this.id = id; this.key = key; }
-
-    public boolean equals(Object o) {return (o instanceof V) &&  id == ((V) o).id;}
-    public int hashCode() { return Objects.hashCode(id); }
-
-    public int compareTo(V o) {return key - o.key;}
-    public String toString() {return pi==null? id+"" : pi.id+"--("+key+")-->"+id;}
-}

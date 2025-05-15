@@ -22,7 +22,7 @@ public class QuickSort {
         data = input;
     }
     
-    int[] sort() {
+    public int[] sort() {
         sort(0, data.length - 1);
         return data;
     }
@@ -32,7 +32,7 @@ public class QuickSort {
      * @param start
      * @param end 
      */
-    public void sort(int start, int end) {
+    void sort(int start, int end) {
         if (start < end) {
             int partitionIndex = partition(start, end);
             sort(start, partitionIndex - 1);
@@ -64,16 +64,23 @@ public class QuickSort {
         swap(pivot, far);                  //swap far with pivot
         return far;
     }
-    
-    
+
+    private static void sortInput(int[] input) {
+        System.out.println("Input:"+Arrays.toString(input));
+        QuickSort quickSort = new QuickSort(input);
+        quickSort.sort();
+        System.out.println("Sorted output:"+Arrays.toString(input));
+    }
+
     public static void main(String[] args) {
-        System.out.println("\nRuning Quick Sort...");
+        System.out.println("Running QuickSort on user defined input");
+        sortInput(new int[]{89,45,68,90,29,34,17});
+
+        System.out.println("\nRunning Quick Sort on random input...");
         Scanner scanner = new Scanner(System.in) ;
-        
-        System.out.print("Enter the size of Integer array:"); 
+        System.out.print("Enter the size of Integer array:");
         int[] input = createRandomArray(scanner.nextInt());
-        int[] result = new QuickSort(input).sort();
-        System.out.format("Sorted Output :%s\n", Arrays.toString(result));
+        sortInput(input);
     }
     
     public static int[] createRandomArray(int size) {
