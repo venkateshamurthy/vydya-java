@@ -5,22 +5,27 @@ import java.util.Scanner;
 
 
 public class dijkstra {
+    static final int INF = 999;
     public static void diji(int[][] a, int source) {
-        int   n = a.length;
+        int       n = a.length;
         boolean[] visited = new boolean[n];
-        int[] d = Arrays.copyOf(a[source], n);
-        int   u = 0;
+        int[]     d = Arrays.copyOf(a[source],n);
+
+        int   u = -1; //yet to find the current node to start
 
         visited[source] = true;
         for (int i = 0; i < n; i++) {
-            int min = 999;
+            int min = INF;
             for (int j = 0; j < n; j++) {
                 if ( ! visited[j] && d[j] < min) {
                     min = d[j];
                     u = j;
                 }
             }
+
+            if (u == -1) break; //could not find the current node to start
             visited[u] = true;
+
             for (int v = 0; v < n; v++) {
                 if ( ! visited[v] && d[v] > d[u] + a[u][v]) {
                     d[v] = d[u] + a[u][v];

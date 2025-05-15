@@ -61,38 +61,28 @@ public class Knapsack {
     void put(int i, int c, int val) { K[i][c] = val;  }
     
     public int compute() {
-        
-        Deque<Integer> take = new ArrayDeque<>();
 
         for (int i = 1; i < n; i++) {
-            
             for (int c = 1; c <= W; c++) {
                 int val;
-                
                 if (w[i] <= c)
                     val = max(v[i] + get(i - 1, c - w[i]), get(i - 1, c));
                 else
                     val = get(i - 1, c);
-                
                 put(i , c, val);
             }
         }
-        
+
+        Deque<Integer> take = new ArrayDeque<>();
         for (int i = n - 1, c = W; i > 0 && c > 0; i--) {
-            
             if (get(i, c) != get(i - 1, c)) {
-                
-                take.addFirst(w[i]); 
-                
+                take.addFirst(w[i]);
                 c -= w[i];
             }
         }
-        
         System.out.println("\nMatrix:"+printMatrix());
         System.out.println("Items:"+take);
-        
         return get(n - 1, W);
-
     }
 
     /**
