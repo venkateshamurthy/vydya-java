@@ -1,95 +1,70 @@
 package linkedlist;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class DoubleLinkedListTest {
 
-    private DoubleLinkedList list;
-
-    @BeforeEach
-    void setUp() {
-        list = new DoubleLinkedList();
-    }
-
     @Test
-    void testIsEmptyOnCreation() {
+    void shouldCreateEmptyList() {
+        DoubleLinkedList list = new DoubleLinkedList();
+
         assertTrue(list.isEmpty());
         assertEquals(0, list.size());
+        assertNull(list.head());
+        assertNull(list.tail());
+        assertEquals("", list.toString());
     }
 
     @Test
-    void testAddSingleNode() {
-        list.add(new DNode(10));
+    void shouldAddNodes() {
+        DoubleLinkedList list = DoubleLinkedList.make(1,2,3);
+                /*new DoubleLinkedList();
 
-        assertFalse(list.isEmpty());
-        assertEquals(1, list.size());
+        list.add(new DNode(1));
+        list.add(new DNode(2));
+        list.add(new DNode(3));*/
 
-        DNode node = list.getByIndex(0);
-
-        assertEquals(10, node.value);
-        assertNull(node.prev);
-        assertNull(node.next);
-    }
-
-    @Test
-    void testAddMultipleNodes() {
-
-        list.add(new DNode(10));
-        list.add(new DNode(20));
-        list.add(new DNode(30));
-
+        assertEquals("[1,2,3]", list.toString());
         assertEquals(3, list.size());
 
-        DNode n1 = list.getByIndex(0);
-        DNode n2 = list.getByIndex(1);
-        DNode n3 = list.getByIndex(2);
+        assertEquals(1, list.head().value);
+        assertEquals(3, list.tail().value);
 
-        assertEquals(10, n1.value);
-        assertEquals(20, n2.value);
-        assertEquals(30, n3.value);
-
-        assertNull(n1.prev);
-        assertEquals(n2, n1.next);
-
-        assertEquals(n1, n2.prev);
-        assertEquals(n3, n2.next);
-
-        assertEquals(n2, n3.prev);
-        assertNull(n3.next);
+        assertNull(list.head().prev);
+        assertNull(list.tail().next);
     }
 
     @Test
-    void testInsertHeadEmptyList() {
+    void shouldRejectNullNode() {
+        DoubleLinkedList list = new DoubleLinkedList();
 
-        list.insertHead(new DNode(5));
-
-        assertEquals(1, list.size());
-        assertEquals(5, list.getByIndex(0).value);
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> list.add(null)
+        );
     }
 
     @Test
-    void testInsertHeadExistingList() {
+    void shouldInsertHead() {
+        DoubleLinkedList list = new DoubleLinkedList();
+        //DOnt use make as youe are adding this in reverse way
+        list.insertHead(new DNode(2));
+        list.insertHead(new DNode(1));
 
-        list.add(new DNode(20));
-        list.add(new DNode(30));
+        assertEquals("[1,2]", list.toString());
 
-        list.insertHead(new DNode(10));
+        assertEquals(1, list.head().value);
+        assertEquals(2, list.tail().value);
 
-        DNode head = list.getByIndex(0);
-        DNode second = list.getByIndex(1);
-
-        assertEquals(10, head.value);
-        assertNull(head.prev);
-
-        assertEquals(20, second.value);
-        assertEquals(head, second.prev);
+        assertNull(list.head().prev);
+        assertSame(list.head(), list.tail().prev);
     }
 
     @Test
-    void testGetByIndex() {
+    void shouldGetByIndex() {
+        DoubleLinkedList list = new DoubleLinkedList();
 
         list.add(new DNode(10));
         list.add(new DNode(20));
@@ -101,130 +76,246 @@ class DoubleLinkedListTest {
     }
 
     @Test
-    void testGetByIndexOutOfBounds() {
+    void shouldReturnNullForInvalidIndex() {
+        DoubleLinkedList list = new DoubleLinkedList();
 
         list.add(new DNode(10));
 
-        assertNull(list.getByIndex(5));
-        assertNull(list.getByIndex(100));
+        assertNull(list.getByIndex(10));
     }
 
     @Test
-    void testGetByValue() {
-
-        list.add(new DNode(10));
-        list.add(new DNode(20));
-        list.add(new DNode(30));
-
-        DNode found = list.getByValue(20);
-
-        assertNotNull(found);
-        assertEquals(20, found.value);
-
-        assertNull(list.getByValue(999));
-    }
-
-    @Test
-    void testRemoveHead() {
+    void shouldGetByValue() {
+        DoubleLinkedList list = new DoubleLinkedList();
 
         list.add(new DNode(10));
         list.add(new DNode(20));
         list.add(new DNode(30));
 
-        DNode removed = list.removeHead();
-
-        assertEquals(10, removed.value);
-
-        DNode newHead = list.getByIndex(0);
-
-        assertEquals(20, newHead.value);
-        assertNull(newHead.prev);
-
-        assertEquals(2, list.size());
+        assertEquals(20, list.getByValue(20).value);
+        assertNull(list.getByValue(99));
     }
 
     @Test
-    void testRemoveHeadSingleNode() {
-
-        list.add(new DNode(10));
-
-        DNode removed = list.removeHead();
-
-        assertEquals(10, removed.value);
-        assertTrue(list.isEmpty());
-    }
-
-    @Test
-    void testRemoveHeadEmptyList() {
-        assertNull(list.removeHead());
-    }
-
-    @Test
-    void testRemoveTailEmptyList() {
-        assertNull(list.removeTail());
-    }
-
-    @Test
-    void testRemoveTailSingleNode() {
-
-        list.add(new DNode(10));
-
-        DNode removed = list.removeTail();
-
-        assertEquals(10, removed.value);
-        assertTrue(list.isEmpty());
-    }
-
-    @Test
-    void testRemoveTailMultipleNodes() {
-
-        list.add(new DNode(10));
-        list.add(new DNode(20));
-        list.add(new DNode(30));
-
-        DNode removed = list.removeTail();
-
-        assertEquals(30, removed.value);
-
-        assertEquals(2, list.size());
-
-        DNode tail = list.getByIndex(1);
-
-        assertEquals(20, tail.value);
-        assertNull(tail.next);
-    }
-
-    @Test
-    void testBackwardTraversal() {
-
-        list.add(new DNode(10));
-        list.add(new DNode(20));
-        list.add(new DNode(30));
-
-        DNode tail = list.getByValue(30);
-
-        assertEquals(30, tail.value);
-        assertEquals(20, tail.prev.value);
-        assertEquals(10, tail.prev.prev.value);
-        assertNull(tail.prev.prev.prev);
-    }
-
-    @Test
-    void testToString() {
+    void shouldRemoveHead() {
+        DoubleLinkedList list = new DoubleLinkedList();
 
         list.add(new DNode(1));
         list.add(new DNode(2));
         list.add(new DNode(3));
 
-        assertEquals("[1,2,3]", list.toString());
+        DNode removed = list.removeHead();
+
+        assertEquals(1, removed.value);
+        assertEquals("[2,3]", list.toString());
+
+        assertNull(list.head().prev);
     }
 
     @Test
-    void testAddNullThrowsException() {
+    void shouldRemoveOnlyHead() {
+        DoubleLinkedList list = new DoubleLinkedList();
 
-        assertThrows(
-                IllegalArgumentException.class,
-                () -> list.add(null)
-        );
+        list.add(new DNode(1));
+
+        DNode removed = list.removeHead();
+
+        assertEquals(1, removed.value);
+        assertTrue(list.isEmpty());
+        assertNull(list.head());
+        assertNull(list.tail());
+    }
+
+    @Test
+    void shouldRemoveTail() {
+        DoubleLinkedList list = new DoubleLinkedList();
+
+        list.add(new DNode(1));
+        list.add(new DNode(2));
+        list.add(new DNode(3));
+
+        DNode removed = list.removeTail();
+
+        assertEquals(3, removed.value);
+        assertEquals("[1,2]", list.toString());
+
+        assertEquals(2, list.tail().value);
+        assertNull(list.tail().next);
+    }
+
+    @Test
+    void shouldRemoveOnlyTail() {
+        DoubleLinkedList list = new DoubleLinkedList();
+
+        list.add(new DNode(1));
+
+        DNode removed = list.removeTail();
+
+        assertEquals(1, removed.value);
+        assertTrue(list.isEmpty());
+        assertNull(list.head());
+        assertNull(list.tail());
+    }
+
+    @Test
+    void shouldReverseList() {
+        DoubleLinkedList list = new DoubleLinkedList();
+
+        list.add(new DNode(1));
+        list.add(new DNode(2));
+        list.add(new DNode(3));
+        list.add(new DNode(4));
+        list.add(new DNode(5));
+
+        list.reverse();
+
+        assertEquals("[5,4,3,2,1]", list.toString());
+
+        assertEquals(5, list.head().value);
+        assertEquals(1, list.tail().value);
+
+        assertNull(list.head().prev);
+        assertNull(list.tail().next);
+    }
+
+    @Test
+    void shouldReverseSingleNodeList() {
+        DoubleLinkedList list = new DoubleLinkedList();
+
+        list.add(new DNode(1));
+
+        list.reverse();
+
+        assertEquals("[1]", list.toString());
+        assertEquals(1, list.head().value);
+        assertEquals(1, list.tail().value);
+    }
+
+    @Test
+    void shouldFindMidNodeOddLength() {
+        DoubleLinkedList list = new DoubleLinkedList();
+
+        for (int i = 1; i <= 5; i++) {
+            list.add(new DNode(i));
+        }
+
+        assertEquals(3, list.findMidNode().value);
+    }
+
+    @Test
+    void shouldFindMidNodeEvenLength() {
+        DoubleLinkedList list = new DoubleLinkedList();
+
+        for (int i = 1; i <= 6; i++) {
+            list.add(new DNode(i));
+        }
+
+        assertEquals(4, list.findMidNode().value);
+    }
+
+    @Test
+    void shouldFindNthFromLast() {
+        DoubleLinkedList list = new DoubleLinkedList();
+
+        for (int i = 1; i <= 5; i++) {
+            list.add(new DNode(i));
+        }
+
+        assertEquals(5, list.findNthFromLast(0).value);
+        assertEquals(4, list.findNthFromLast(1).value);
+        assertEquals(3, list.findNthFromLast(2).value);
+        assertEquals(1, list.findNthFromLast(4).value);
+    }
+
+    @Test
+    void shouldReturnNullWhenNthExceedsLength() {
+        DoubleLinkedList list = new DoubleLinkedList();
+
+        list.add(new DNode(1));
+        list.add(new DNode(2));
+
+        assertNull(list.findNthFromLast(2));
+        assertNull(list.findNthFromLast(10));
+    }
+
+    @Test
+    void shouldMergeSortedLists() {
+        DoubleLinkedList l1 = DoubleLinkedList.make(1,3,5);
+        DoubleLinkedList l2 = DoubleLinkedList.make(2,4,6);
+        List<DNode> merged = DoubleLinkedList.merge(l1, l2);
+        assertEquals("[1,2,3,4,5,6]", merged.toString());
+    }
+
+    @Test
+    void shouldDetectNoLoop() {
+        DoubleLinkedList list = new DoubleLinkedList();
+
+        list.add(new DNode(1));
+        list.add(new DNode(2));
+        list.add(new DNode(3));
+
+        assertNull(list.findLoop());
+    }
+
+    @Test
+    void shouldDetectLoopStart() {
+        DoubleLinkedList list = new DoubleLinkedList();
+
+        DNode n1 = new DNode(1);
+        DNode n2 = new DNode(2);
+        DNode n3 = new DNode(3);
+        DNode n4 = new DNode(4);
+        DNode n5 = new DNode(5);
+
+        list.add(n1);
+        list.add(n2);
+        list.add(n3);
+        list.add(n4);
+        list.add(n5);
+
+        n5.next = n3;
+
+        DNode loopStart = list.findLoop();
+
+        assertSame(n3, loopStart);
+    }
+
+    @Test
+    void shouldMaintainPrevLinks() {
+        DoubleLinkedList list = new DoubleLinkedList();
+
+        DNode n1 = new DNode(1);
+        DNode n2 = new DNode(2);
+        DNode n3 = new DNode(3);
+
+        list.add(n1);
+        list.add(n2);
+        list.add(n3);
+
+        assertNull(n1.prev);
+        assertSame(n1, n2.prev);
+        assertSame(n2, n3.prev);
+    }
+
+    @Test
+    void shouldMaintainPrevLinksAfterReverse() {
+        DoubleLinkedList list = new DoubleLinkedList();
+
+        list.add(new DNode(1));
+        list.add(new DNode(2));
+        list.add(new DNode(3));
+
+        list.reverse();
+
+        DNode h = list.head();
+
+        assertEquals(3, h.value);
+        assertNull(h.prev);
+
+        assertEquals(2, h.next.value);
+        assertSame(h, h.next.prev);
+
+        assertEquals(1, h.next.next.value);
+        assertSame(h.next, h.next.next.prev);
     }
 }
