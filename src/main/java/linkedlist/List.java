@@ -1,6 +1,8 @@
 package  linkedlist;
 
 public interface List<N> {
+    N create(int value);
+
     //Get at certain index
     N getByIndex(int index);
     N getByValue(int value);
@@ -16,5 +18,17 @@ public interface List<N> {
     //Add at head and tail
     void insertHead(N node);
     void add (N node);
+    default void add(int value) {add(create(value));}
+
+    <N> N head();
+    default <N> N tail(){
+        throw new UnsupportedOperationException("Not supported tail operation.");
+    };
+
+    //Problems
+    void reverse();
+    N findMidNode();
+    N findNthFromLast(int n);
+    N findLoop();
 }
 

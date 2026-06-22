@@ -1,138 +1,249 @@
 package linkedlist;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-public class LinkedListTest {
-
-    private LinkedList list;
-
-    @BeforeEach
-    void setUp() {
-        list = new LinkedList();
-    }
+class LinkedListTest {
 
     @Test
-    void testIsEmptyOnCreation() {
+    void shouldCreateEmptyList() {
+        LinkedList list = new LinkedList();
+
         assertTrue(list.isEmpty());
         assertEquals(0, list.size());
+        assertNull(list.head());
+        assertEquals("", list.toString());
     }
 
     @Test
-    void testAddSingleNode() {
-        list.add(new Node(10));
-        assertFalse(list.isEmpty());
-        assertEquals(1, list.size());
-        assertEquals(10, list.getByIndex(0).value);
-    }
+    void shouldAddNodes() {
+        LinkedList list = new LinkedList();
 
-    @Test
-    void testAddMultipleNodes() {
-        list.add(new Node(10));
-        list.add(new Node(20));
-        list.add(new Node(30));
-        
+        list.add(new Node(1));
+        list.add(new Node(2));
+        list.add(new Node(3));
+
         assertEquals(3, list.size());
+        assertEquals("[1,2,3]", list.toString());
+    }
+
+    @Test
+    void shouldRejectNullNode() {
+        LinkedList list = new LinkedList();
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> list.add(null)
+        );
+    }
+
+    @Test
+    void shouldInsertAtHead() {
+        LinkedList list = new LinkedList();
+
+        list.insertHead(new Node(2));
+        list.insertHead(new Node(1));
+
+        assertEquals("[1,2]", list.toString());
+    }
+
+    @Test
+    void shouldGetByIndex() {
+        LinkedList list =  LinkedList.make(10, 20, 30, 40);
+
         assertEquals(10, list.getByIndex(0).value);
         assertEquals(20, list.getByIndex(1).value);
         assertEquals(30, list.getByIndex(2).value);
+        assertEquals(40, list.getByIndex(3).value);
     }
 
     @Test
-    void testAddNullThrowsException() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            list.add(null);
-        });
-    }
+    void shouldReturnNullForInvalidIndex() {
+        LinkedList list =  LinkedList.make(10, 20);
 
-    @Test
-    void testCreateStaticFactory() {
-        List<Node> createdList = LinkedList.create(1, 2, 3);
-        assertEquals(3, createdList.size());
-        assertEquals(1, createdList.getByIndex(0).value);
-    }
-
-    @Test
-    void testInsertHeadOnEmptyList() {
-        list.insertHead(new Node(5));
-        assertEquals(1, list.size());
-        assertEquals(5, list.getByIndex(0).value);
-    }
-
-    @Test
-    void testInsertHeadOnExistingList() {
-        list.add(new Node(10));
-        list.insertHead(new Node(5));
-        
-        assertEquals(2, list.size());
-        assertEquals(5, list.getByIndex(0).value);
-        assertEquals(10, list.getByIndex(1).value);
-    }
-
-    @Test
-    void testGetByIndexOutOfBounds() {
-        list.add(new Node(10));
         assertNull(list.getByIndex(5));
     }
 
     @Test
-    void testGetByValue() {
-        list.add(new Node(10));
-        list.add(new Node(20));
-        
-        Node found = list.getByValue(20);
-        assertNotNull(found);
-        assertEquals(20, found.value);
-        
+    void shouldGetByValue() {
+        LinkedList list =  LinkedList.make(10, 20, 30);
+
+        assertEquals(20, list.getByValue(20).value);
         assertNull(list.getByValue(99));
     }
 
     @Test
-    void testRemoveHead() {
-        list.add(new Node(10));
-        list.add(new Node(20));
-        
+    void shouldRemoveHead() {
+        LinkedList list = LinkedList.make(1, 2, 3);
+
         Node removed = list.removeHead();
-        assertEquals(10, removed.value);
-        assertNull(removed.next); // Ensure it is unlinked
-        assertEquals(1, list.size());
-        assertEquals(20, list.getByIndex(0).value);
+
+        assertEquals(1, removed.value);
+        assertNull(removed.next);
+        assertEquals("[2,3]", list.toString());
     }
 
     @Test
-    void testRemoveHeadOnEmptyList() {
-        assertNull(list.removeHead());
-    }
+    void shouldRemoveHeadFromSingleElementList() {
+        LinkedList list =  new LinkedList();
+        list.add(1);
+        Node removed = list.removeHead();
 
-    @Test
-    void testRemoveTailEmptyAndSingleNode() {
-        // Case 1: Empty list
-        assertNull(list.removeTail());
-        
-        // Case 2: One node
-        list.add(new Node(10));
-        Node removed = list.removeTail();
-        assertEquals(10, removed.value);
+        assertEquals(1, removed.value);
         assertTrue(list.isEmpty());
     }
 
     @Test
-    void testRemoveTailMultipleNodes() {
-        list.add(new Node(10));
-        list.add(new Node(20));
-        list.add(new Node(30));
-        
-        Node removed = list.removeTail();
-        assertEquals(30, removed.value);
-        assertEquals(2, list.size());
-        assertEquals(20, list.getByIndex(1).value);
+    void shouldReturnNullWhenRemovingHeadFromEmptyList() {
+        LinkedList list = new LinkedList();
+
+        assertNull(list.removeHead());
     }
 
     @Test
-    void testToStringLayout() {
-        list.add(new Node(1));
-        list.add(new Node(2));
-        assertEquals("[1,2]", list.toString());
+    void shouldRemoveTail() {
+        LinkedList list =  LinkedList.make(1, 2, 3, 4);
+
+        Node tail = list.removeTail();
+
+        assertEquals(4, tail.value);
+        assertEquals("[1,2,3]", list.toString());
+    }
+
+    @Test
+    void shouldRemoveTailFromSingleElementList() {
+        LinkedList list = new LinkedList();
+        list.add(1);
+        Node tail = list.removeTail();
+
+        assertEquals(1, tail.value);
+        assertTrue(list.isEmpty());
+    }
+
+    @Test
+    void shouldReturnNullWhenRemovingTailFromEmptyList() {
+        LinkedList list = new LinkedList();
+
+        assertNull(list.removeTail());
+    }
+
+    @Test
+    void shouldReverseList() {
+        LinkedList list =  LinkedList.make(1, 2, 3, 4, 5);
+
+        list.reverse();
+
+        assertEquals("[5,4,3,2,1]", list.toString());
+    }
+
+    @Test
+    void shouldReverseSingleNodeList() {
+        LinkedList list = LinkedList.make(1);
+        list.reverse();
+
+        assertEquals("[1]", list.toString());
+    }
+
+    @Test
+    void shouldFindMidNodeOddLength() {
+        LinkedList list =  LinkedList.make(1, 2, 3, 4, 5);
+
+        assertEquals(3, list.findMidNode().value);
+    }
+
+    @Test
+    void shouldFindMidNodeEvenLength() {
+        LinkedList list =  LinkedList.make(1, 2, 3, 4, 5, 6);
+
+        assertEquals(4, list.findMidNode().value);
+    }
+
+    @Test
+    void shouldFindNthFromLast() {
+        LinkedList list =  LinkedList.make(1, 2, 3, 4, 5);
+
+        assertEquals(5, list.findNthFromLast(0).value);
+        assertEquals(4, list.findNthFromLast(1).value);
+        assertEquals(3, list.findNthFromLast(2).value);
+    }
+
+    @Test
+    void shouldReturnHeadWhenNthEqualsLastIndex() {
+        LinkedList list =  LinkedList.make(1, 2, 3, 4, 5);
+
+        assertEquals(1, list.findNthFromLast(4).value);
+    }
+
+    @Test
+    void shouldReturnNullWhenNthExceedsLength() {
+        LinkedList list =  LinkedList.make(1, 2, 3);
+
+        assertNull(list.findNthFromLast(3));
+        assertNull(list.findNthFromLast(10));
+    }
+
+    @Test
+    void shouldReturnNullForNegativeNth() {
+        LinkedList list =  LinkedList.make(1, 2, 3);
+
+        assertNull(list.findNthFromLast(-1));
+    }
+
+    @Test
+    void shouldMergeSortedLists() {
+        LinkedList l1 = LinkedList.make(1,3,5);
+        LinkedList l2 = LinkedList.make(2,4,6);
+        List<Node> merged = LinkedList.merge(l1, l2);
+        assertEquals("[1,2,3,4,5,6]", merged.toString());
+    }
+
+    @Test
+    void shouldDetectNoLoop() {
+        LinkedList list =  LinkedList.make(1, 2, 3, 4);
+
+        assertNull(list.findLoop());
+    }
+
+    @Test
+    void shouldDetectLoopAndReturnLoopStart() {
+        LinkedList list = new LinkedList();
+
+        Node n1 = new Node(1);
+        Node n2 = new Node(2);
+        Node n3 = new Node(3);
+        Node n4 = new Node(4);
+        Node n5 = new Node(5);
+
+        list.add(n1);
+        list.add(n2);
+        list.add(n3);
+        list.add(n4);
+        list.add(n5);
+
+        n5.next = n3;
+
+        Node loopStart = list.findLoop();
+
+        assertNotNull(loopStart);
+        assertSame(n3, loopStart);
+        assertEquals(3, loopStart.value);
+    }
+
+    @Test
+    void shouldDetectLoopAtHead() {
+        LinkedList list = new LinkedList();
+
+        Node n1 = new Node(1);
+        Node n2 = new Node(2);
+        Node n3 = new Node(3);
+
+        list.add(n1);
+        list.add(n2);
+        list.add(n3);
+
+        n3.next = n1;
+
+        assertSame(n1, list.findLoop());
     }
 }

@@ -8,10 +8,15 @@ public class LinkedList implements List<Node> {
         head = null;
     }
 
-    public static List create(int... values) {
-        List list = new LinkedList();
+    public Node head() {
+        return head;
+    }
+
+    public static LinkedList make(int val, int... values) {
+        LinkedList list = new LinkedList();
+        list.add(val);
         for (int value : values) {
-            list.add(new Node(value));
+            list.add(value);
         }
         return list;
     }
@@ -21,7 +26,7 @@ public class LinkedList implements List<Node> {
         if (node == null) {
             throw new IllegalArgumentException("Node cannot be null");
         }
-
+        node.next = null;
         if (head == null) {
             head = node;
             return;
@@ -40,7 +45,12 @@ public class LinkedList implements List<Node> {
         if (temp == null) {
             head = node;
         } else {
-            node.next = temp;
+            // h-------->n1------->n2
+            // temp
+            //node-------->temp=head----->n1------->n2
+            //head=node
+            //node.next = temp
+            node.next = temp; //head
             head = node;
         }
     }
@@ -58,7 +68,7 @@ public class LinkedList implements List<Node> {
 
     public Node getByValue(int value){
         Node temp = head;
-        while(temp != null){
+        while (temp != null) {
             if (temp.value==value) return temp;
             temp = temp.next;
         }
@@ -117,6 +127,98 @@ public class LinkedList implements List<Node> {
         return tail;           // return the stored last node
     }
 
+    public static LinkedList merge(LinkedList  list1, LinkedList  list2) {
+        LinkedList list = new LinkedList();
+        var l1 = list1.head();
+        var l2 = list2.head();
+        while (l1 != null && l2 != null) {
+            if (l1.value <= l2.value) {
+                list.add(l1);
+                l1 = l1.next;
+            } else {
+                list.add(l2);
+                l2 = l2.next;
+            }
+        }
+        while(l1 != null) {list.add(l1);l1 = l1.next;}
+        while(l2 != null) {list.add(l2);l2 = l2.next;}
+        return list;
+    }
+
+    public  Node create(int value) { return new Node(value); }
+
+    //no----->n1----->n2----->n3----->n4
+    //c.      n
+    //n0<-----n1----->n2----->n3----->n4
+    //.       h       n
+    //n0<-----n1<-----n2----->n3----->n4
+    //.               h.      n
+    @Override
+    public void reverse() {
+        Node prev = null;
+        Node current = head;
+        while (current != null) {
+            Node next = current.next; // save the next
+            current.next = prev;      // reverse current.next
+            prev = current;           // advance prev
+            current = next;           // advance current
+        }
+        head = prev;
+    }
+
+    @Override
+    public Node findMidNode() {
+        if (head == null) return null;
+        Node slow = head, fast = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+    }
+
+    @Override
+    public Node findNthFromLast(int n) {
+        if (head == null || n < 0) return null;
+
+        Node slow = head, fast = head;
+        int count = 0;
+
+        while (count++ < n) {            // Until count reaches n check if list itself is upto n size
+            if (fast.next == null) {     //if you find fast.next = null then list is falling short so return null
+                return null;             //return null as there is no nth node from last
+            }
+            fast = fast.next;            //otherwise keep fast jumping once
+        }
+
+        while (fast.next != null) {      //Now keep both slow and fast jumping together
+            fast = fast.next;
+            slow = slow.next;
+        }
+        return slow;
+    }
+
+    @Override
+    public Node findLoop() {
+        if (head == null) return null;
+        Node slow = head, fast = head;
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;     //fast: Jump twice
+            slow = slow.next;          //slow: jump once
+
+            if (slow == fast) {        //if they meet then loop is detected
+                slow = head;           //reset slow to head
+
+                while (slow != fast) { //Until slow meets fast loop through
+                    slow = slow.next;  //both of them take just only one step
+                    fast = fast.next;  //both of them take just only one step
+                }
+                return slow;           //at this point they are at the start of loop
+            }
+        }
+        return null;                   // No loop detected hence null
+    }
+
     public String toString() {
         StringBuilder sb = new StringBuilder();
         Node temp = head;
@@ -126,8 +228,10 @@ public class LinkedList implements List<Node> {
             sb.append(temp.value).append(",");
             temp = temp.next;
         }
-        sb.deleteCharAt(sb.length()-1);
+        if (exists) sb.deleteCharAt(sb.length() - 1);
         if (exists) {sb.append("]");}
         return sb.toString();
     }
+
+
 }
