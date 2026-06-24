@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class LinkedListTest {
 
     @Test
-    void shouldCreateEmptyList() {
+    void shouldCreateNodeEmptyList() {
         LinkedList list = new LinkedList();
 
         assertTrue(list.isEmpty());
@@ -194,9 +194,9 @@ class LinkedListTest {
     void shouldMergeSortedLists() {
         LinkedList l1 = LinkedList.make(1,3,5);
         LinkedList l2 = LinkedList.make(2,4,6);
-        List<Node> merged = LinkedList.merge(l1, l2);
+        LinkedList merged = List.merge(l1, l2);
         assertEquals("[1,2,3,4,5,6]", merged.toString());
-        merged = LinkedList.merge(LinkedList.make(1),  LinkedList.make(2));
+        merged = List.merge(LinkedList.make(1),  LinkedList.make(2));
         // Single node lists merging
         assertEquals("[1,2]", merged.toString());
     }
@@ -207,12 +207,12 @@ class LinkedListTest {
         LinkedList l2 = LinkedList.make(2,4,6);
 
         // this is checking for both linkedlists itself being null
-        assertEquals("[1,3,5]", LinkedList.merge(l1, null).toString());
-        assertEquals("[2,4,6]", LinkedList.merge(null, l2).toString());
+        assertEquals("[1,3,5]", List.merge(l1, null).toString());
+        assertEquals("[2,4,6]", List.merge(null, l2).toString());
 
         // this is checking for both list are not null; however one of the list's head is null
-        assertEquals("[1,3,5]", LinkedList.merge(l1, new LinkedList()).toString());
-        assertEquals("[2,4,6]", LinkedList.merge(new LinkedList(), l2).toString());
+        assertEquals("[1,3,5]", List.merge(l1, new LinkedList()).toString());
+        assertEquals("[2,4,6]", List.merge(new LinkedList(), l2).toString());
     }
 
     @Test

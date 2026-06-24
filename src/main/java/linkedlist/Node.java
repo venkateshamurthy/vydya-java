@@ -1,6 +1,6 @@
 package linkedlist;
 
-public class Node {
+public class Node implements INode<Integer, Node> {
     final int value;
     Node next;
 
@@ -9,8 +9,9 @@ public class Node {
         next = null;
     }
 
-    @Override
     public String toString() {
-        return  value + "";
+        return value + "";
     }
+    public Node next()       { return next;}
+    public Integer value()   { return value;}
 }

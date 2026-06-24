@@ -1,7 +1,7 @@
 package linkedlist;
 
 
-public class DoubleLinkedList implements List<DNode> {
+public class DoubleLinkedList implements List<DNode, DoubleLinkedList> {
     DNode head;
     DNode tail;
 
@@ -189,8 +189,11 @@ public class DoubleLinkedList implements List<DNode> {
 
         return sb.toString();
     }
-
-    public DNode create(int value) { return new DNode(value); }
+    @Override
+    public DoubleLinkedList createList() {
+        return new DoubleLinkedList();
+    }
+    public DNode createNode(int value) { return new DNode(value); }
     //no----->n1----->n2----->n3----->n4
     //n0<-----n1<-----n2<-----n3<-----n4
     //h                               t

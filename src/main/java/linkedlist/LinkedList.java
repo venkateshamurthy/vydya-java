@@ -1,7 +1,10 @@
 package  linkedlist;
 
 
-public class LinkedList implements List<Node> {
+import java.util.function.Consumer;
+import java.util.function.UnaryOperator;
+
+public class LinkedList implements List<Node, LinkedList> {
     Node head;
 
     public LinkedList() {
@@ -49,21 +52,20 @@ public class LinkedList implements List<Node> {
 
     @Override
     public void insertHead(Node node) {
-        Node temp = head;
-        if (temp == null) {
+        if (head == null) {
             head = node;
-        } else {
-            // h-------->n1------->n2
-            // temp
-            //node-------->temp=head----->n1------->n2
-            //head=node
-            //node.next = temp
-            node.next = temp; //head
-            head = node;
+            node.next = null;//always clear links
+            return;
         }
+        node.next = head;  // just point nodes next to the current head
+        head = node;       // Move back the current head to the node
     }
 
-
+    /**
+     * Get nth node from head where nth index is passed
+     * @param index is the index of the node in the linked list from head
+     * @return node at index.
+     */
     @Override
     public Node getByIndex(int index) {
         Node temp = head;
@@ -83,7 +85,6 @@ public class LinkedList implements List<Node> {
         return null;
     }
 
-
     @Override
     public int size() {
         Node temp = head;
@@ -97,15 +98,19 @@ public class LinkedList implements List<Node> {
 
     @Override
     public boolean isEmpty() {
-        return head == null;
+        return head == null; // size() == 0; is the worst way of computing empty ness
     }
 
+    //n1-->n2-->n3-->n4
+    //h
+    //n1   n2-->n3-->n4
+    //     h
     @Override
     public Node removeHead() {
         if (head == null) return null;
-        Node temp = head;
+        Node temp = head; //Node* t = head
         head = head.next;
-        temp.next = null;
+        temp.next = null; // t->next = null;
         return temp;
     }
 
@@ -121,7 +126,7 @@ public class LinkedList implements List<Node> {
             return last;      // return the stored last node
         }
         // head-->n1-->n2-->n3-->n4-->n5-->null
-        //                       t.n->n--->n = null
+        //                       t.n->n5-->null
         Node t = head;
         while (t.next != null && t.next.next != null) { //as long as 3 or more nodes exist
             t = t.next;
@@ -135,53 +140,21 @@ public class LinkedList implements List<Node> {
         return tail;           // return the stored last node
     }
 
-    public static LinkedList merge(LinkedList  list1, LinkedList  list2) {
-        if (list1 == null || list1.head == null) return list2;
-        if (list2 == null || list2.head == null) return list1;
-        var l1 = list1.head();
-        var l2 = list2.head();
-
-        LinkedList list = new LinkedList();
-
-        while (l1 != null && l2 != null) {
-            if (l1.value <= l2.value) {
-                Node saved = l1.next;
-                list.add(l1);
-                l1 = saved;
-            } else {
-                Node saved = l2.next;
-                list.add(l2);
-                l2 = saved;
-            }
-        }
-
-        while(l1 != null) {
-            Node saved = l1.next;
-            list.add(l1);
-            l1 = saved;
-        }
-
-        while(l2 != null) {
-            Node saved = l2.next;
-            list.add(l2);
-            l2 = saved;
-        }
-        return list;
-    }
-
-    public  Node create(int value) { return new Node(value); }
+    public  Node createNode(int value) { return new Node(value); }
+    public LinkedList createList() {return new LinkedList();}
 
     /* n0----->n1----->n2----->n3----->n4
-       c.      n
-  <----n0<-----n1----->n2----->n3----->n4
-       p       c       n
-       n0<-----n1<-----n2----->n3----->n4
-    .          p       c.      n
-       n0<-----n1<-----n2<-----n3----->n4
-    .                  p       c       n
-       n0<-----n1<-----n2----->n3<-----n4.     null
-    .                          p       c.      n
-     */
+           c.      n
+      <----n0<-----n1----->n2----->n3----->n4
+           p       c       n
+           n0<-----n1<-----n2----->n3----->n4
+        .          p       c.      n
+           n0<-----n1<-----n2<-----n3----->n4
+        .                  p       c       n
+           n0<-----n1<-----n2----->n3<-----n4.     null
+        .                          p       c.      n
+                                           p       c
+         */
     @Override
     public void reverse() {
         Node prev = null;

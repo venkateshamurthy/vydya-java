@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class DoubleLinkedListTest {
 
     @Test
-    void shouldCreateEmptyList() {
+    void shouldCreateNodeEmptyList() {
         DoubleLinkedList list = new DoubleLinkedList();
 
         assertTrue(list.isEmpty());
@@ -242,7 +242,7 @@ class DoubleLinkedListTest {
     void shouldMergeSortedLists() {
         DoubleLinkedList l1 = DoubleLinkedList.make(1,3,5);
         DoubleLinkedList l2 = DoubleLinkedList.make(2,4,6);
-        List<DNode> merged = DoubleLinkedList.merge(l1, l2);
+        DoubleLinkedList merged = List.merge(l1, l2);
         assertEquals("[1,2,3,4,5,6]", merged.toString());
     }
 
